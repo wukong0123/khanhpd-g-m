@@ -78,6 +78,7 @@ void Player::keyUp(SDL_KeyboardEvent *event){
     }
 }
 void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
+    int xxx ;
 	Bullet* NewBullet = new Bullet() ;
 	NewBullet->setTexture( "Bullet.png" , renderer ) ;
     NewBullet->setHP(1) ;
