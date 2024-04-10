@@ -82,8 +82,7 @@ void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
 	Bullet* NewBullet = new Bullet() ;
 	NewBullet->setTexture( "Bullet.png" , renderer ) ;
     NewBullet->setHP(1) ;
-    int radius = sqrt((this->W) * ( this->W ) + (this->H) * ( this->H )) + 1 ;
-    std :: cout << NewBullet->getW() <<' ' << NewBullet->getH() << "\n"  ;
+    int radius = sqrt((this->W) * ( this->W ) + (this->H) * ( this->H )) / 2 + 1 ;
 	double Deltax = (double)(Newx) - ( this->x + this->W / 2) ;
 	double Deltay = (double)(Newy) - ( this->y + this->H / 2) ;
 	if ( sqrt(Deltax * Deltay + Deltay * Deltay ) < radius ){
