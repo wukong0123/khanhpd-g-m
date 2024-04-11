@@ -28,10 +28,10 @@ void Game::Gamestart(){
     CommonFunc::waitUntilKeyPressed();
 
     Mine.resetInput() ;
-    Mine.setTexture("UFO.png", renderer);
+    Mine.setTexture("Player.png", renderer , 24 , 32 );
 
     Mine.setX(500) ; Mine.setY(325) ;
-    CommonFunc::renderTexture( Mine.getTexture(), Mine.getX() , Mine.getY() , renderer);
+    Mine.render(renderer) ;
     SDL_RenderPresent( renderer );
 
     SDL_Event e;
@@ -46,7 +46,7 @@ void Game::Gamestart(){
 
         if ( List_enemy.size() < 5 ){
             Enemy* Su = new Enemy();
-            Su->setTexture("Enemy.png" , renderer) ;
+            Su->setTexture("Enemy.png" , renderer , 0 , 0 ) ;
             Su->MOVETO( Mine.getX() , Mine.getY() , Su->getSP() ) ;
             List_enemy.push_back(Su) ;
         }
@@ -70,8 +70,8 @@ void Game::Gamestart(){
             }
             Mine.move() ;
         }
-         CommonFunc::renderTexture( BackGround , 0 , 0 , renderer );
-         CommonFunc::renderTexture( Mine.getTexture(), Mine.getX() , Mine.getY(), renderer);
+        CommonFunc::renderTexture( BackGround , 0 , 0 , renderer );
+        Mine.render(renderer) ;
 
         for ( int i = 0 ; i < List_enemy.size() ; ++ i ){
             std::vector<Enemy*> L_list = List_enemy ;

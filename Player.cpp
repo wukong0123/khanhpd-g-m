@@ -2,29 +2,29 @@
 
 Player::Player(){
 	up = left = down = right = false;
-	speed = (double)(7);
+	speed = (double)(4);
 	HP = 3 ;
+	direct = 0 ; cur_pos = 0 ;
 }
 void Player::move(){
-	if(up && left){
-		dx = dy = -speed;
-	}else if(up && right){
-		dx = speed;
+	if(up){
 		dy = -speed;
-	}else if(down && left ){
-		dx = -speed;
-		dy = speed;
-	}else if(down && right){
-		dx = dy = speed;
-	}else if(up){
-		dy = -speed;
+		if ( direct == 0 ) ++ cur_pos ; else cur_pos = 0 ;
+		direct = 0 ;
 	}else if(down){
 		dy = speed;
+		if ( direct == 2 ) ++ cur_pos ; else cur_pos = 0 ;
+		direct = 2 ;
 	}else if(left){
 		dx = -speed;
+		if ( direct == 3 ) ++ cur_pos ; else cur_pos = 0 ;
+		direct = 3 ;
 	} else if(right){
 		dx = speed;
+		if ( direct == 1 ) ++ cur_pos ; else cur_pos = 0 ;
+		direct = 1 ;
 	}
+	cur_pos %= 12 ;
 	x = (x + dx < 0 ? 0 : (x + dx > 1000 - this->W ? 1000 - this->W : x + dx));
 	y = (y + dy < 0 ? 0 : (y + dy > 650 - this->H ? 650 - this->H : y + dy));
 	dx = dy = 0;
@@ -80,7 +80,7 @@ void Player::keyUp(SDL_KeyboardEvent *event){
 void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
     int xxx ;
 	Bullet* NewBullet = new Bullet() ;
-	NewBullet->setTexture( "Bullet.png" , renderer ) ;
+	NewBullet->setTexture( "Bullet.png" , renderer , 0 , 0 ) ;
     NewBullet->setHP(1) ;
     int radius = sqrt((this->W) * ( this->W ) + (this->H) * ( this->H )) / 2 + 1 ;
 	double Deltax = (double)(Newx) - ( this->x + this->W / 2) ;
@@ -110,6 +110,9 @@ void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
     }
     NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
     List_Bullet.push_back(NewBullet) ;
+}
+void Player::render( SDL_Renderer * renderer){
+    CommonFunc::ProrenderTexture(texture , cur_pos * 24 , direct * 32 , x , y , W , H ,W * 2 , H * 2 , renderer ) ;
 }
 void Player::resetInput(){
 	left = up = right = down = false;

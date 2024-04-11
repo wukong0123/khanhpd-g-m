@@ -41,10 +41,10 @@ void Entity::setHP( int HP ){
 int Entity::getHP(){
     return HP ;
 }
-void Entity::setTexture( const char * Name , SDL_Renderer* renderer ){
+void Entity::setTexture( const char * Name , SDL_Renderer* renderer , int _W , int _H ){
     SDL_Texture * texture = CommonFunc::loadTexture( Name , renderer ) ;
 	this->texture = texture;
-	int _W , _H ;
+	if ( _W == 0 && _H == 0 )
 	SDL_QueryTexture(texture, NULL, NULL, &_W, &_H);
 	this->W = _W ; this->H = _H ;
 }

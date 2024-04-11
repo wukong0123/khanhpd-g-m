@@ -6,6 +6,7 @@ class Player:public Entity{
 	private:
 		bool up = 0 , down = 0 , left = 0 , right = 0;
 	    vector<Bullet*> List_Bullet ;
+	    int direct ; int cur_pos ;
 	public:
 		Player();
 		void move();
@@ -15,5 +16,6 @@ class Player:public Entity{
 		void keyDown(SDL_KeyboardEvent*);
 		void keyUp(SDL_KeyboardEvent*);
 		void mouseDown(int , int , SDL_Renderer*) ;
+		void render(SDL_Renderer * ) ;
 		void resetInput();
 };

@@ -21,9 +21,10 @@ namespace CommonFunc{
   void waitUntilKeyPressed() ;
 
   void renderTexture(SDL_Texture *, double , double , SDL_Renderer* ) ;
-
+  void ProrenderTexture(SDL_Texture *, double , double , double , double , double , double , double , double , SDL_Renderer* ) ;
   SDL_Texture *loadTexture(const char *, SDL_Renderer* ) ;
   int genRDNumber( int , int ) ;
+  void render(SDL_Renderer * ) ;
   bool IS_ATC( int , int , int , int , int , int ) ;
 }
 

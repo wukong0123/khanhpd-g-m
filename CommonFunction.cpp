@@ -62,7 +62,16 @@ void CommonFunc::renderTexture(SDL_Texture *texture, double x, double y, SDL_Ren
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 	SDL_RenderCopy(renderer, texture, NULL, &dest);
 }
+void CommonFunc::ProrenderTexture(SDL_Texture *texture, double x, double y, double tox , double toy , double W , double H , double nW , double nH , SDL_Renderer* renderer){
 
+	SDL_Rect dest;
+    SDL_Rect newdest ;
+	dest.x = x; dest.y = y;
+	dest.w = W ; dest.h = H ;
+	newdest.x = tox ; newdest.y = toy ;
+	newdest.w = nW ; newdest.h = nH ;
+	SDL_RenderCopy(renderer, texture, &dest, &newdest);
+}
 SDL_Texture* CommonFunc::loadTexture(const char *filename, SDL_Renderer* renderer){
 
 	SDL_Texture *texture = IMG_LoadTexture(renderer, filename);
