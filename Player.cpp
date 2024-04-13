@@ -25,6 +25,13 @@ void Player::move(){
 		direct = 1 ;
 	}
 	cur_pos %= 12 ;
+	over_x = 0 ;
+	over_y = 0 ;
+	if ( x + dx < 0 ) over_x = x + dx ;
+    else if ( x + dx > 1000 - this->W ) over_x= x + dx - 1000 + this->W ;
+    if ( y + dy < 0 ) over_y = y + dy ;
+    else if ( y + dy > 650 - this->H ) over_y = y + dy - 650 + this->H ;
+
 	x = (x + dx < 0 ? 0 : (x + dx > 1000 - this->W ? 1000 - this->W : x + dx));
 	y = (y + dy < 0 ? 0 : (y + dy > 650 - this->H ? 650 - this->H : y + dy));
 	dx = dy = 0;
@@ -112,7 +119,13 @@ void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
     List_Bullet.push_back(NewBullet) ;
 }
 void Player::render( SDL_Renderer * renderer){
-    CommonFunc::ProrenderTexture(texture , cur_pos * 24 , direct * 32 , x , y , W , H ,W * 2 , H * 2 , renderer ) ;
+    CommonFunc::ProrenderTexture(texture , cur_pos * 24 , direct * 32 , x , y , 24 , 32 , W , H , renderer ) ;
+}
+int Player::getox(){
+    return this->over_x ;
+}
+int Player::getoy(){
+    return this->over_y ;
 }
 void Player::resetInput(){
 	left = up = right = down = false;

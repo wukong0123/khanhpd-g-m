@@ -17,10 +17,10 @@ void Game::Gamestart(){
 
     srand(time(NULL)) ;
 
-
+    int cur_x = 0 , cur_y = 0 ;
     Player Mine ;
 
-    SDL_Texture* BackGround = CommonFunc::loadTexture("Back_ground.jpg", this->renderer);
+    SDL_Texture* BackGround = CommonFunc::loadTexture("Background.png", this->renderer);
 
     CommonFunc::renderTexture( BackGround , 0 , 0 , this->renderer );
 
@@ -28,7 +28,7 @@ void Game::Gamestart(){
     CommonFunc::waitUntilKeyPressed();
 
     Mine.resetInput() ;
-    Mine.setTexture("Player.png", renderer , 24 , 32 );
+    Mine.setTexture("Player.png", renderer , 24*3/2 , 32*3/2 );
 
     Mine.setX(500) ; Mine.setY(325) ;
     Mine.render(renderer) ;
@@ -70,7 +70,10 @@ void Game::Gamestart(){
             }
             Mine.move() ;
         }
-        CommonFunc::renderTexture( BackGround , 0 , 0 , renderer );
+        cur_x += Mine.getox() ; cur_y += Mine.getoy() ;
+        cur_x = max( 0 , min( cur_x , 2048 - 1000 ) ) ;
+        cur_y = max( 0 , min( cur_y , 2048 - 650 ) ) ;
+        CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
         Mine.render(renderer) ;
 
         for ( int i = 0 ; i < List_enemy.size() ; ++ i ){
@@ -119,6 +122,7 @@ void Game::Gamestart(){
                 }
          }
          SDL_RenderPresent( renderer );
+         SDL_Delay(10) ;
     }
 
     Mine.release() ;
