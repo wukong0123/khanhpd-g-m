@@ -46,7 +46,7 @@ void Game::Gamestart(){
 
         if ( List_enemy.size() < 5 ){
             Enemy* Su = new Enemy();
-            Su->setTexture("Enemy.png" , renderer , 0 , 0 ) ;
+            Su->setTexture("dmonster.png" , renderer , 0 , 0 ) ;
             Su->MOVETO( Mine.getX() , Mine.getY() , Su->getSP() ) ;
             List_enemy.push_back(Su) ;
         }
@@ -72,7 +72,7 @@ void Game::Gamestart(){
         }
         cur_x += Mine.getox() ; cur_y += Mine.getoy() ;
         cur_x = max( 0 , min( cur_x , 2048 - 1000 ) ) ;
-        cur_y = max( 0 , min( cur_y , 2048 - 650 ) ) ;
+        cur_y = max( 0 , min( cur_y , 1530 - 650 ) ) ;
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
         Mine.render(renderer) ;
 

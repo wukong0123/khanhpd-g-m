@@ -2,7 +2,7 @@
 
 Player::Player(){
 	up = left = down = right = false;
-	speed = (double)(4);
+	speed = (double)(3);
 	HP = 3 ;
 	direct = 0 ; cur_pos = 0 ;
 }
