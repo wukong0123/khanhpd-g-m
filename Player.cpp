@@ -87,7 +87,7 @@ void Player::keyUp(SDL_KeyboardEvent *event){
 void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
     int xxx ;
 	Bullet* NewBullet = new Bullet() ;
-	NewBullet->setTexture( "Bullet.png" , renderer , 0 , 0 ) ;
+	NewBullet->setTexture( "Bullet.png" , renderer  ) ;
     NewBullet->setHP(1) ;
     int radius = sqrt((this->W) * ( this->W ) + (this->H) * ( this->H )) / 2 + 1 ;
 	double Deltax = (double)(Newx) - ( this->x + this->W / 2) ;
@@ -118,8 +118,11 @@ void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
     NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
     List_Bullet.push_back(NewBullet) ;
 }
+void Player::setWH( int x ,int y ){
+    this->W = x ; this->H = y ;
+}
 void Player::render( SDL_Renderer * renderer){
-    CommonFunc::ProrenderTexture(texture , cur_pos * 24 , direct * 32 , x , y , 24 , 32 , W , H , renderer ) ;
+    CommonFunc::ProrenderTexture(texture , cur_pos * 36 , direct * 48 , x , y , 36 , 48 , 36 , 48 , renderer ) ;
 }
 int Player::getox(){
     return this->over_x ;

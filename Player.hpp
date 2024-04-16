@@ -20,5 +20,6 @@ class Player:public Entity{
 		void render(SDL_Renderer * ) ;
 		int getox() ;
 		int getoy() ;
+		void setWH(int , int) ;
 		void resetInput();
 };

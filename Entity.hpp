@@ -17,7 +17,8 @@ class Entity{
 		void setDX(double);
 		void setDY(double);
 		void setHP(int) ;
-		void setTexture(const char* , SDL_Renderer* , int , int );
+		void setTexture(const char* , SDL_Renderer* );
+		void setTexturecut(const char* , SDL_Renderer* , int , int );
 		void release() ;
 		double getX();
 		void MOVETO( int , int , double ) ;

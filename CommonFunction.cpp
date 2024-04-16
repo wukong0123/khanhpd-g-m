@@ -70,7 +70,15 @@ void CommonFunc::ProrenderTexture(SDL_Texture *texture, double x, double y, doub
 	dest.w = W ; dest.h = H ;
 	newdest.x = tox ; newdest.y = toy ;
 	newdest.w = nW ; newdest.h = nH ;
-	SDL_RenderCopy(renderer, texture, &dest, &newdest);
+	SDL_RenderCopy(renderer, texture, &dest , &newdest );
+}
+void CommonFunc::RealrenderTexture(SDL_Texture *texture, double x, double y, double angle , bool o , SDL_Renderer* renderer){
+
+    SDL_Rect dest;
+    dest.x = x;
+	dest.y = y;
+	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+    SDL_RenderCopyEx( renderer , texture , NULL , &dest , angle , NULL , ( o == 0 ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL )) ;
 }
 SDL_Texture* CommonFunc::loadTexture(const char *filename, SDL_Renderer* renderer){
 

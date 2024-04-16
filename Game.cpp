@@ -5,7 +5,7 @@
 
 
 using namespace std;
-
+using namespace CommonFunc ;
 const char* WINDOW_TITLE = "SURVIVAL_MINE_V1.0";
 
 Game::Game() {
@@ -20,7 +20,7 @@ void Game::Gamestart(){
     int cur_x = 0 , cur_y = 0 ;
     Player Mine ;
 
-    SDL_Texture* BackGround = CommonFunc::loadTexture("Background.png", this->renderer);
+    SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
 
     CommonFunc::renderTexture( BackGround , 0 , 0 , this->renderer );
 
@@ -28,9 +28,10 @@ void Game::Gamestart(){
     CommonFunc::waitUntilKeyPressed();
 
     Mine.resetInput() ;
-    Mine.setTexture("Player.png", renderer , 24*3/2 , 32*3/2 );
+    Mine.setTexture("Player.png", renderer );
 
     Mine.setX(500) ; Mine.setY(325) ;
+    Mine.setWH(36 , 48) ;
     Mine.render(renderer) ;
     SDL_RenderPresent( renderer );
 
@@ -46,7 +47,11 @@ void Game::Gamestart(){
 
         if ( List_enemy.size() < 5 ){
             Enemy* Su = new Enemy();
-            Su->setTexture("dmonster.png" , renderer , 0 , 0 ) ;
+            Su->setNametexture("tm") ;
+            Su->setframe( 6 ) ;
+            string cur_enemy_name = Su->getName() +(char('0' + Su->getsernum())) +".png";
+            const char* s = cur_enemy_name.c_str() ;
+            Su->setTexture( s , renderer ) ;
             Su->MOVETO( Mine.getX() , Mine.getY() , Su->getSP() ) ;
             List_enemy.push_back(Su) ;
         }
@@ -71,8 +76,8 @@ void Game::Gamestart(){
             Mine.move() ;
         }
         cur_x += Mine.getox() ; cur_y += Mine.getoy() ;
-        cur_x = max( 0 , min( cur_x , 2048 - 1000 ) ) ;
-        cur_y = max( 0 , min( cur_y , 1530 - 650 ) ) ;
+        cur_x = max( 0 , min( cur_x , 1290 - 1000 ) ) ;
+        cur_y = max( 0 , min( cur_y , 964 - 650 ) ) ;
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
         Mine.render(renderer) ;
 
@@ -80,7 +85,12 @@ void Game::Gamestart(){
             std::vector<Enemy*> L_list = List_enemy ;
             Enemy* C_enemy = L_list.at(i) ;
              if ( C_enemy->is_exist() ){
-                CommonFunc::renderTexture( C_enemy->getTexture() , C_enemy->getX() , C_enemy->getY() , renderer ) ;
+                C_enemy->updateframe() ;
+                string cur_enemy_name = C_enemy->getName() +(char('0' + C_enemy->getsernum())) +".png";
+                const char* s = cur_enemy_name.c_str() ;
+                C_enemy->setTexture(s , renderer ) ;
+
+                RealrenderTexture( C_enemy->getTexture() , C_enemy->getX() , C_enemy->getY() , 0 ,( C_enemy->getX() > Mine.getX() ? 1 : 0 ) , renderer ) ;
                 C_enemy->MOVETO( Mine.getX() , Mine.getY() , C_enemy->getSP() ) ;
                 C_enemy->move() ;
                 if (  C_enemy->Coll(Mine) ){
@@ -110,7 +120,7 @@ void Game::Gamestart(){
                 Bullet* Current_Bullet = N_list.at(i) ;
                 if ( Current_Bullet != NULL ){
                 if ( Current_Bullet->is_exist() ){
-                        CommonFunc::renderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), renderer);
+                        renderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), renderer);
                         Current_Bullet->move() ;
                 } else {
                         N_list.erase( N_list.begin() + i ) ;
@@ -122,7 +132,7 @@ void Game::Gamestart(){
                 }
          }
          SDL_RenderPresent( renderer );
-         SDL_Delay(10) ;
+         SDL_Delay(50) ;
     }
 
     Mine.release() ;
