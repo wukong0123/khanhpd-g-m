@@ -3,7 +3,7 @@
 int VTX[] = { 0 , 0 , 1000 - 50 , 1000 - 50 } ;
 int VTY[] = { 0 , 650 - 50 , 650 - 50 , 0 } ;
 Enemy::Enemy(){
-    speed = (double)(0.5)  ;
+    speed = (double)(0.3)  ;
     HP = 1 ;
     this->RDPos() ;
 }

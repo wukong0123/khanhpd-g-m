@@ -7,7 +7,7 @@
 int main(int argc, char *argv[]){
 
     Game app ;
-    //cout << atan2(2 , 1) * (180.0 / M_PI);
+    //cout << atan2(1 , -1) * (180.0 / M_PI);
     app.Gamestart() ;
     return 0;
 }

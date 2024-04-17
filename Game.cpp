@@ -38,14 +38,16 @@ void Game::Gamestart(){
     SDL_Event e;
     std::vector<Enemy*> List_enemy ;
     List_enemy.clear() ;
+    int timer = 0 ;
     while ( true ) {
 
         if ( Mine.getHP() <= 0 ){
             CommonFunc::quitSDL(window , renderer) ;
             break ;
         }
+        timer += 50 ;
 
-        if ( List_enemy.size() < 5 ){
+        if ( timer >= 3000 && List_enemy.size() < 20 ){
             Enemy* Su = new Enemy();
             Su->setNametexture("tm") ;
             Su->setframe( 6 ) ;

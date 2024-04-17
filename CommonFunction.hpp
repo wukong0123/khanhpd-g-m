@@ -24,6 +24,8 @@ namespace CommonFunc{
   SDL_Texture *loadTexture(const char *, SDL_Renderer* ) ;
   int genRDNumber( int , int ) ;
   void render(SDL_Renderer * ) ;
+  double getangle( int , int ) ;
+  pair<int,int> getPosmovemouse( int , int , int , int , pair<int , int> , pair<int , int> ) ;
   void RealrenderTexture(SDL_Texture *, double , double , double , bool , SDL_Renderer*) ;
   bool IS_ATC( int , int , int , int , int , int ) ;
 }

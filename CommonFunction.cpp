@@ -40,7 +40,9 @@ void CommonFunc::quitSDL(SDL_Window* window, SDL_Renderer* renderer){
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
-
+double CommonFunc::getangle( int x , int y ){
+    return ( x < 0 ? abs(atan2(x , y) * (180.0 / M_PI)) : 360 - abs(atan2(x , y) * (180.0 / M_PI)) );
+}
 void CommonFunc::waitUntilKeyPressed(){
     SDL_Event e;
     while (true) {
@@ -61,6 +63,16 @@ void CommonFunc::renderTexture(SDL_Texture *texture, double x, double y, SDL_Ren
 	dest.y = y;
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 	SDL_RenderCopy(renderer, texture, NULL, &dest);
+}
+pair<int,int> CommonFunc::getPosmovemouse( int x , int y, int W, int H, pair<int , int> _vector , pair<int , int> _size ){
+    int mid_x = x + W/2 ;
+    int mid_y = y + H/2 ;
+    double radius = ( W * W + H * H ) / 4 + 1 ;
+    double fakeradius = (_vector.first * _vector.first + _vector.second* _vector.second) / 4 + 1 ;
+
+        _vector.first = mid_x + _vector.first / fakeradius * radius - _size.first / 2;
+        _vector.second = mid_y + _vector.second / fakeradius * radius - _size.second / 2 ;
+    return _vector ;
 }
 void CommonFunc::ProrenderTexture(SDL_Texture *texture, double x, double y, double tox , double toy , double W , double H , double nW , double nH , SDL_Renderer* renderer){
 
