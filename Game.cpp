@@ -28,6 +28,7 @@ void Game::Gamestart(){
     CommonFunc::waitUntilKeyPressed();
 
     Mine.resetInput() ;
+    //Mine.->setTexture( "bow.png" , renderer ) ;
     Mine.setTexture("Player.png", renderer );
 
     Mine.setX(500) ; Mine.setY(325) ;
@@ -57,32 +58,36 @@ void Game::Gamestart(){
             Su->MOVETO( Mine.getX() , Mine.getY() , Su->getSP() ) ;
             List_enemy.push_back(Su) ;
         }
+        int z , t ;
         while(SDL_PollEvent(&e)){
-            if ( e.type == SDL_MOUSEMOTION ) continue ;
-            switch(e.type){
-                case SDL_QUIT:
+                if ( e.type == SDL_QUIT )
                     exit(0);
-                    break;
-                case SDL_KEYUP:
+                if ( e.type == SDL_KEYUP )
                     Mine.keyUp(&e.key);
-                    break;
-                case SDL_KEYDOWN:
+                if ( e.type ==  SDL_KEYDOWN )
                     Mine.keyDown(&e.key);
-                    break;
-                case SDL_MOUSEBUTTONDOWN :
-                    int x , y;
+
+                if ( e.type == SDL_MOUSEBUTTONDOWN ){
+
+                   int x , y;
                     Uint32 buttons = SDL_GetMouseState(&x , &y);
                     Mine.mouseDown( x , y , renderer ) ;
-                    break;
-            }
+
+                }
+                if ( e.type == SDL_MOUSEMOTION )
+                {
+                    Uint32 buttons = SDL_GetMouseState(&z , &t);
+                    Mine.mouseMove( z , t , renderer ) ;
+                }
             Mine.move() ;
         }
+        Mine.mouseMove( z , t , renderer ) ;
         cur_x += Mine.getox() ; cur_y += Mine.getoy() ;
         cur_x = max( 0 , min( cur_x , 1290 - 1000 ) ) ;
         cur_y = max( 0 , min( cur_y , 964 - 650 ) ) ;
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
         Mine.render(renderer) ;
-
+        Mine.setWH(36 , 48) ;
         for ( int i = 0 ; i < List_enemy.size() ; ++ i ){
             std::vector<Enemy*> L_list = List_enemy ;
             Enemy* C_enemy = L_list.at(i) ;
@@ -118,11 +123,20 @@ void Game::Gamestart(){
             }
         }
          for ( int i = 0 ; i <Mine.GetBulletlist().size() ; ++ i ){
+            std::vector<Bullet*> N_list = Mine.GetBulletlist() ;
+            Bullet* Current_Bullet = N_list.at(i) ;
+            if ( Current_Bullet != NULL ){
+                if ( Current_Bullet->is_exist() ){
+                        RealrenderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), Current_Bullet->getangle() , 0 ,  renderer);
+                }
+         }
+         }
+         for ( int i = 0 ; i <Mine.GetBulletlist().size() ; ++ i ){
                 std::vector<Bullet*> N_list = Mine.GetBulletlist() ;
                 Bullet* Current_Bullet = N_list.at(i) ;
                 if ( Current_Bullet != NULL ){
                 if ( Current_Bullet->is_exist() ){
-                        renderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), renderer);
+                        //RealrenderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), Current_Bullet->getangle() , 0 ,  renderer);
                         Current_Bullet->move() ;
                 } else {
                         N_list.erase( N_list.begin() + i ) ;
@@ -133,6 +147,7 @@ void Game::Gamestart(){
                     }
                 }
          }
+         CommonFunc::RealrenderTexture( Mine.getbow()->getTexture() , Mine.getbow()->getX() ,  Mine.getbow()->getY() ,  Mine.getbow()->getangle() , 0 , renderer ) ;
          SDL_RenderPresent( renderer );
          SDL_Delay(50) ;
     }

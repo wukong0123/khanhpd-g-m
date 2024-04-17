@@ -5,6 +5,7 @@ Player::Player(){
 	speed = (double)(3);
 	HP = 3 ;
 	direct = 0 ; cur_pos = 0 ;
+	//(this->bow)->setTexture( "bow.png" , renderer  ) ;
 }
 void Player::move(){
 	if(up){
@@ -34,6 +35,8 @@ void Player::move(){
 
 	x = (x + dx < 0 ? 0 : (x + dx > 1000 - this->W ? 1000 - this->W : x + dx));
 	y = (y + dy < 0 ? 0 : (y + dy > 650 - this->H ? 650 - this->H : y + dy));
+
+
 	dx = dy = 0;
 }
 bool Player :: is_move(){
@@ -84,42 +87,30 @@ void Player::keyUp(SDL_KeyboardEvent *event){
     }
     }
 }
+void Player::mouseMove( int Nx , int Ny , SDL_Renderer* renderer ){
+    bow = new Entity();
+    bow->setTexture( "bow.png" , renderer ) ;
+    bow->setangle( CommonFunc::getangle(Nx - this->x - this->W / 2 , Ny - this->y - this->H/2)) ;
+    pair<int,int> newpos = CommonFunc::getPosmovemouse( x , y , W , H ,  Nx - this->x - this->W / 2 , Ny - this->y - this->H/2 , bow->getW() , bow->getH() ) ;
+    bow->setX( newpos.first ) ;
+    bow->setY( newpos.second ) ;
+}
 void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
-    int xxx ;
 	Bullet* NewBullet = new Bullet() ;
-	NewBullet->setTexture( "Bullet.png" , renderer  ) ;
+	NewBullet->setTexture( "bullet.png" , renderer  ) ;
     NewBullet->setHP(1) ;
-    int radius = sqrt((this->W) * ( this->W ) + (this->H) * ( this->H )) / 2 + 1 ;
-	double Deltax = (double)(Newx) - ( this->x + this->W / 2) ;
-	double Deltay = (double)(Newy) - ( this->y + this->H / 2) ;
-	if ( sqrt(Deltax * Deltay + Deltay * Deltay ) < radius ){
-        NewBullet->release() ; return ;
-	}
-    if ( Deltax == 0 ){
-        NewBullet->setX(this->x) ;
-        NewBullet->setY(this->y + radius * ( Newy > this->y ? 1 : -1 )) ;
-    } else
-    if ( Deltay == 0 ){
-        NewBullet->setY(this->y) ;
-        NewBullet->setX(this->x + radius * ( Newx > this->x ? 1 : -1 )) ;
-    }
-    else{
-        double Ratio = Deltax / Deltay ;
-        Ratio = Ratio * Ratio ;
-        double _DX = speed * speed /( 1 + Ratio ) * Ratio ;
-        double _DY = speed * speed - _DX ;
-        double _GX = (double)(radius * radius) /( 1 + Ratio ) * Ratio ;
-        double _GY = (double)(radius * radius) - _GX ;
-        double _LX = ( this->x + this->W / 2) + (sqrt(_GX) )* ( Deltax > 0 ? 1 : -1 );
-        double _LY = ( this->y + this->H / 2) + (sqrt(_GY) )* ( Deltay > 0 ? 1 : -1 ) ;
-        NewBullet->setX(_LX - 10 ) ;
-        NewBullet->setY(_LY - 10 ) ;
-    }
+    NewBullet->setangle(CommonFunc::getangle( Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 )) ;
+    pair<int,int> newpos = CommonFunc::getPosmovemouse( x , y , W , H ,  Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 , NewBullet->getW() , NewBullet->getH() ) ;
+    NewBullet->setX( newpos.first ) ; NewBullet->setY( newpos.second ) ;
     NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
     List_Bullet.push_back(NewBullet) ;
+//    cout << "Mouse Down\n";
 }
 void Player::setWH( int x ,int y ){
     this->W = x ; this->H = y ;
+}
+Entity* Player::getbow(){
+    return this->bow ;
 }
 void Player::render( SDL_Renderer * renderer){
     CommonFunc::ProrenderTexture(texture , cur_pos * 36 , direct * 48 , x , y , 36 , 48 , 36 , 48 , renderer ) ;

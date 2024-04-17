@@ -7,6 +7,7 @@ Entity::Entity(){
 	HP = 0 ;
 	speed = 0 ;
 	texture = NULL;
+	angle = 0 ;
 }
 void Entity::setSP( double speed ){
     this->speed = speed ;
@@ -18,7 +19,12 @@ void Entity::move(){
 	this->x += dx;
 	this->y += dy;
 }
-
+void Entity::setangle( double ag ){
+    this->angle = ag ;
+}
+double Entity::getangle(){
+    return this->angle ;
+}
 void Entity::setX(double x){
 	this->x = x;
 }

@@ -6,6 +6,7 @@ class Player:public Entity{
 	private:
 		bool up = 0 , down = 0 , left = 0 , right = 0;
 	    vector<Bullet*> List_Bullet ;
+	    Entity* bow ;
 	    int direct ; int cur_pos ;
 	    int over_x = 0 , over_y = 0 ;
 	public:
@@ -19,6 +20,8 @@ class Player:public Entity{
 		void mouseDown(int , int , SDL_Renderer*) ;
 		void render(SDL_Renderer * ) ;
 		int getox() ;
+		void mouseMove(int , int , SDL_Renderer*) ;
+		Entity* getbow() ;
 		int getoy() ;
 		void setWH(int , int) ;
 		void resetInput();

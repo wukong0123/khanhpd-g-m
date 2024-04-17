@@ -7,7 +7,7 @@ class Entity{
 		double x, y, dx, dy ;
 		int HP ;
 		double W , H ;
-		double speed ;
+		double speed , angle ;
 		SDL_Texture *texture;
 	public:
 		Entity();
@@ -28,6 +28,8 @@ class Entity{
 		void updHP() ;
 		void setSP( double ) ;
 		double getSP() ;
+		void setangle( double ) ;
+		double getangle() ;
 		double getDY();
 		double getW() ;
 		double getH() ;

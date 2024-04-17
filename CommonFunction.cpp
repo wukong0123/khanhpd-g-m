@@ -41,7 +41,7 @@ void CommonFunc::quitSDL(SDL_Window* window, SDL_Renderer* renderer){
     SDL_Quit();
 }
 double CommonFunc::getangle( int x , int y ){
-    return ( x < 0 ? abs(atan2(x , y) * (180.0 / M_PI)) : 360 - abs(atan2(x , y) * (180.0 / M_PI)) );
+    return atan2(x , -y) * (180.0 / M_PI) ;
 }
 void CommonFunc::waitUntilKeyPressed(){
     SDL_Event e;
@@ -64,15 +64,15 @@ void CommonFunc::renderTexture(SDL_Texture *texture, double x, double y, SDL_Ren
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 	SDL_RenderCopy(renderer, texture, NULL, &dest);
 }
-pair<int,int> CommonFunc::getPosmovemouse( int x , int y, int W, int H, pair<int , int> _vector , pair<int , int> _size ){
+pair<int,int> CommonFunc::getPosmovemouse( int x , int y, int W, int H, int _vector_x , int _vector_y , double _size_W , double _size_H ){
     int mid_x = x + W/2 ;
     int mid_y = y + H/2 ;
     double radius = ( W * W + H * H ) / 4 + 1 ;
-    double fakeradius = (_vector.first * _vector.first + _vector.second* _vector.second) / 4 + 1 ;
+    double fakeradius = (_vector_x * _vector_x + _vector_y* _vector_y) / 4 + 1 ;
 
-        _vector.first = mid_x + _vector.first / fakeradius * radius - _size.first / 2;
-        _vector.second = mid_y + _vector.second / fakeradius * radius - _size.second / 2 ;
-    return _vector ;
+        _vector_x = mid_x + _vector_x / fakeradius * radius - _size_W / 2;
+        _vector_y = mid_y + _vector_y / fakeradius * radius - _size_H / 2 ;
+    return (pair<int,int>){_vector_x , _vector_y } ;
 }
 void CommonFunc::ProrenderTexture(SDL_Texture *texture, double x, double y, double tox , double toy , double W , double H , double nW , double nH , SDL_Renderer* renderer){
 
