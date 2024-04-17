@@ -5,7 +5,7 @@ Player::Player(){
 	speed = (double)(3);
 	HP = 3 ;
 	direct = 0 ; cur_pos = 0 ;
-	//(this->bow)->setTexture( "bow.png" , renderer  ) ;
+	weapon = new Entity();
 }
 void Player::move(){
 	if(up){
@@ -88,12 +88,13 @@ void Player::keyUp(SDL_KeyboardEvent *event){
     }
 }
 void Player::mouseMove( int Nx , int Ny , SDL_Renderer* renderer ){
-    bow = new Entity();
-    bow->setTexture( "bow.png" , renderer ) ;
-    bow->setangle( CommonFunc::getangle(Nx - this->x - this->W / 2 , Ny - this->y - this->H/2)) ;
-    pair<int,int> newpos = CommonFunc::getPosmovemouse( x , y , W , H ,  Nx - this->x - this->W / 2 , Ny - this->y - this->H/2 , bow->getW() , bow->getH() ) ;
-    bow->setX( newpos.first ) ;
-    bow->setY( newpos.second ) ;
+//    weapon = new Entity();
+    //bow->setTexture( "bow.png" , renderer ) ;
+    weapon->setangle( CommonFunc::getangle(Nx - this->x - this->W / 2 , Ny - this->y - this->H/2)) ;
+    pair<int,int> newpos = CommonFunc::getPosmovemouse( this->x , this->y , this->W , this->H ,  Nx - this->x - this->W / 2 , Ny - this->y - this->H/2 , weapon->getW() , weapon->getH() ) ;
+    weapon->setX( newpos.first ) ;
+    weapon->setY( newpos.second ) ;
+
 }
 void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
 	Bullet* NewBullet = new Bullet() ;
@@ -104,16 +105,19 @@ void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
     NewBullet->setX( newpos.first ) ; NewBullet->setY( newpos.second ) ;
     NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
     List_Bullet.push_back(NewBullet) ;
-//    cout << "Mouse Down\n";
+
 }
 void Player::setWH( int x ,int y ){
     this->W = x ; this->H = y ;
 }
-Entity* Player::getbow(){
-    return this->bow ;
+Entity* Player::getweapon(){
+    return this->weapon ;
 }
 void Player::render( SDL_Renderer * renderer){
     CommonFunc::ProrenderTexture(texture , cur_pos * 36 , direct * 48 , x , y , 36 , 48 , 36 , 48 , renderer ) ;
+}
+void Player::setweapon( char* Tr , SDL_Renderer * renderer ){
+    this->weapon->setTexture( Tr , renderer )  ;
 }
 int Player::getox(){
     return this->over_x ;

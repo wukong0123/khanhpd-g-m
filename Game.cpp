@@ -28,7 +28,6 @@ void Game::Gamestart(){
     CommonFunc::waitUntilKeyPressed();
 
     Mine.resetInput() ;
-    //Mine.->setTexture( "bow.png" , renderer ) ;
     Mine.setTexture("Player.png", renderer );
 
     Mine.setX(500) ; Mine.setY(325) ;
@@ -46,11 +45,13 @@ void Game::Gamestart(){
             CommonFunc::quitSDL(window , renderer) ;
             break ;
         }
+        Mine.setweapon( "bow.png" , renderer ) ;
+
         timer += 50 ;
 
         if ( timer >= 3000 && List_enemy.size() < 20 ){
             Enemy* Su = new Enemy();
-            Su->setNametexture("tm") ;
+            Su->setNametexture( "tm" ) ;
             Su->setframe( 6 ) ;
             string cur_enemy_name = Su->getName() +(char('0' + Su->getsernum())) +".png";
             const char* s = cur_enemy_name.c_str() ;
@@ -136,7 +137,6 @@ void Game::Gamestart(){
                 Bullet* Current_Bullet = N_list.at(i) ;
                 if ( Current_Bullet != NULL ){
                 if ( Current_Bullet->is_exist() ){
-                        //RealrenderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), Current_Bullet->getangle() , 0 ,  renderer);
                         Current_Bullet->move() ;
                 } else {
                         N_list.erase( N_list.begin() + i ) ;
@@ -147,7 +147,7 @@ void Game::Gamestart(){
                     }
                 }
          }
-         CommonFunc::RealrenderTexture( Mine.getbow()->getTexture() , Mine.getbow()->getX() ,  Mine.getbow()->getY() ,  Mine.getbow()->getangle() , 0 , renderer ) ;
+         CommonFunc::RealrenderTexture( Mine.getweapon()->getTexture() , Mine.getweapon()->getX() ,  Mine.getweapon()->getY() ,  Mine.getweapon()->getangle() , 0 , renderer ) ;
          SDL_RenderPresent( renderer );
          SDL_Delay(50) ;
     }

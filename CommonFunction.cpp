@@ -67,8 +67,9 @@ void CommonFunc::renderTexture(SDL_Texture *texture, double x, double y, SDL_Ren
 pair<int,int> CommonFunc::getPosmovemouse( int x , int y, int W, int H, int _vector_x , int _vector_y , double _size_W , double _size_H ){
     int mid_x = x + W/2 ;
     int mid_y = y + H/2 ;
-    double radius = ( W * W + H * H ) / 4 + 1 ;
-    double fakeradius = (_vector_x * _vector_x + _vector_y* _vector_y) / 4 + 1 ;
+    double radius = ( W * W + H * H ) / 4 ;
+    _vector_x*= 50 ; _vector_y *= 50 ;
+    double fakeradius = (_vector_x * _vector_x + _vector_y* _vector_y) / 4 ;
 
         _vector_x = mid_x + _vector_x / fakeradius * radius - _size_W / 2;
         _vector_y = mid_y + _vector_y / fakeradius * radius - _size_H / 2 ;
