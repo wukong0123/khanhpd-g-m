@@ -1,7 +1,7 @@
 #include "Bullet.hpp"
 
 Bullet::Bullet(){
-    speed = (double)(10)  ;
+    speed = (double)(20)  ;
     HP = 1 ;
     angle = 0 ;
 }

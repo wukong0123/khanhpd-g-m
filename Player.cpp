@@ -2,7 +2,7 @@
 
 Player::Player(){
 	up = left = down = right = false;
-	speed = (double)(3);
+	speed = (double)(2);
 	HP = 3 ;
 	direct = 0 ; cur_pos = 0 ;
 	weapon = new Entity();
@@ -35,7 +35,6 @@ void Player::move(){
 
 	x = (x + dx < 0 ? 0 : (x + dx > 1000 - this->W ? 1000 - this->W : x + dx));
 	y = (y + dy < 0 ? 0 : (y + dy > 650 - this->H ? 650 - this->H : y + dy));
-
 
 	dx = dy = 0;
 }
@@ -88,31 +87,39 @@ void Player::keyUp(SDL_KeyboardEvent *event){
     }
 }
 void Player::mouseMove( int Nx , int Ny , SDL_Renderer* renderer ){
-//    weapon = new Entity();
-    //bow->setTexture( "bow.png" , renderer ) ;
+
     weapon->setangle( CommonFunc::getangle(Nx - this->x - this->W / 2 , Ny - this->y - this->H/2)) ;
     pair<int,int> newpos = CommonFunc::getPosmovemouse( this->x , this->y , this->W , this->H ,  Nx - this->x - this->W / 2 , Ny - this->y - this->H/2 , weapon->getW() , weapon->getH() ) ;
     weapon->setX( newpos.first ) ;
     weapon->setY( newpos.second ) ;
 
 }
+
 void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
+
 	Bullet* NewBullet = new Bullet() ;
 	NewBullet->setTexture( "bullet.png" , renderer  ) ;
+
     NewBullet->setHP(1) ;
     NewBullet->setangle(CommonFunc::getangle( Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 )) ;
+
     pair<int,int> newpos = CommonFunc::getPosmovemouse( x , y , W , H ,  Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 , NewBullet->getW() , NewBullet->getH() ) ;
+
     NewBullet->setX( newpos.first ) ; NewBullet->setY( newpos.second ) ;
+
     NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
     List_Bullet.push_back(NewBullet) ;
 
 }
+
 void Player::setWH( int x ,int y ){
     this->W = x ; this->H = y ;
 }
+
 Entity* Player::getweapon(){
     return this->weapon ;
 }
+
 void Player::render( SDL_Renderer * renderer){
     CommonFunc::ProrenderTexture(texture , cur_pos * 36 , direct * 48 , x , y , 36 , 48 , 36 , 48 , renderer ) ;
 }
@@ -125,9 +132,11 @@ int Player::getox(){
 int Player::getoy(){
     return this->over_y ;
 }
+
 void Player::resetInput(){
 	left = up = right = down = false;
 }
+
 void Player::setbulletlist(std::vector<Bullet*> List ){
     List_Bullet = List ;
 }

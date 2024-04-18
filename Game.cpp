@@ -82,6 +82,9 @@ void Game::Gamestart(){
                 }
             Mine.move() ;
         }
+
+        Mine.move() ;
+
         Mine.mouseMove( z , t , renderer ) ;
         cur_x += Mine.getox() ; cur_y += Mine.getoy() ;
         cur_x = max( 0 , min( cur_x , 1290 - 1000 ) ) ;
