@@ -37,22 +37,27 @@ void Game::Gamestart(){
 
     SDL_Event e;
     std::vector<Enemy*> List_enemy ;
-    List_enemy.clear() ;
+    std::vector<bat*> List_bat ;
+
+    List_enemy.clear() ; List_bat.clear()  ;
     int timer = 0 ;
+    Mine.setweapon( "bow.png" , renderer ) ;
+
+    int weapon_type = 1 ;
+    int Cannon_timer = -3000 ;
     while ( true ) {
 
         if ( Mine.getHP() <= 0 ){
-            CommonFunc::quitSDL(window , renderer) ;
+            CommonFunc::quitSDL(window , renderer) ; // Player died
             break ;
         }
-        Mine.setweapon( "bow.png" , renderer ) ;
 
         timer += 50 ;
 
-        if ( timer >= 3000 && List_enemy.size() < 20 ){
+        if ( timer >= 1500 && List_enemy.size() < 15 ){
             Enemy* Su = new Enemy();
-            Su->setNametexture( "bat" ) ;
-            Su->setframe( 8 ) ;
+            Su->setNametexture( "tm" ) ;
+            Su->setframe( 6 ) ;
             string cur_enemy_name = Su->getName() +(char('0' + Su->getsernum())) +".png";
             const char* s = cur_enemy_name.c_str() ;
 
@@ -60,20 +65,50 @@ void Game::Gamestart(){
             Su->MOVETO( Mine.getX() , Mine.getY() , Su->getSP() ) ;
             List_enemy.push_back(Su) ;
         }
+
+        if ( timer >= 5000 && List_bat.size() < 20 ){
+            //cout << 1 <<"\n" ;
+            bat* Su_bat = new bat();
+            Su_bat->setNametexture( "bat" ) ;
+            Su_bat->setframe( 8 ) ;
+            string cur_enemy_name = Su_bat->getName() +(char('0' + Su_bat->getsernum())) +".png";
+            const char* s_bat = cur_enemy_name.c_str() ;
+
+            Su_bat->setTexture( s_bat , renderer ) ;
+            Su_bat->MOVETO( Mine.getX() , Mine.getY() , Su_bat->getSP() ) ;
+
+            List_bat.push_back(Su_bat) ;
+            //cout << List_bat.size() ;
+        }
+//......................................pull event..............................................
+
         int z , t ;
+        //Cannon_bullet_timer = timer - 1000 ;
         while(SDL_PollEvent(&e)){
                 if ( e.type == SDL_QUIT )
                     exit(0);
                 if ( e.type == SDL_KEYUP )
                     Mine.keyUp(&e.key);
-                if ( e.type ==  SDL_KEYDOWN )
+                if ( e.type ==  SDL_KEYDOWN ){
                     Mine.keyDown(&e.key);
+
+                    if ( e.key.keysym.scancode == SDL_SCANCODE_C ){
+                        if ( timer - Cannon_timer >= 3000 ){
+                           Cannon_timer = timer ;
+                           //Cannon_bullet_timer = timer - 1000 ;
+                           Mine.setweapon( "cannon.png" , renderer ) , weapon_type = 2 ;
+                        }
+                        else  Mine.setweapon( "bow.png" , renderer ) , weapon_type = 1;
+                    }
+                    else  if ( e.key.keysym.scancode == SDL_SCANCODE_K )
+                        Mine.setweapon( "bow.png" , renderer ) , weapon_type = 1;
+                }
 
                 if ( e.type == SDL_MOUSEBUTTONDOWN ){
 
                    int x , y;
                     Uint32 buttons = SDL_GetMouseState(&x , &y);
-                    Mine.mouseDown( x , y , renderer ) ;
+                    Mine.mouseDown( x , y , weapon_type , renderer ) ;
 
                 }
                 if ( e.type == SDL_MOUSEMOTION )
@@ -100,6 +135,7 @@ void Game::Gamestart(){
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
         Mine.render(renderer) ;
         Mine.setWH(36 , 48) ;
+//...........................................tm..............................................
         for ( int i = 0 ; i < List_enemy.size() ; ++ i ){
              Enemy* C_enemy = List_enemy.at(i) ;
              C_enemy->setX( C_enemy->getX() - dif_map_x) ;
@@ -113,9 +149,8 @@ void Game::Gamestart(){
                 string cur_enemy_name = C_enemy->getName() +(char('0' + C_enemy->getsernum())) +".png";
                 const char* s = cur_enemy_name.c_str() ;
                 C_enemy->setTexture(s , renderer ) ;
-                //C_enemy->setX( C_enemy->getX() + dif_map_x) ;
-                //C_enemy->setY( C_enemy->getY() + dif_map_y) ;
-                RealrenderTexture( C_enemy->getTexture() , C_enemy->getX()  , C_enemy->getY() , 0 ,( C_enemy->getX() < Mine.getX() ? 1 : 0 ) , renderer ) ;
+
+                RealrenderTexture( C_enemy->getTexture() , C_enemy->getX()  , C_enemy->getY() , 0 ,( C_enemy->getX() > Mine.getX() ? 1 : 0 ) , renderer ) ;
 
 
                 C_enemy->MOVETO( Mine.getX() , Mine.getY() , C_enemy->getSP() ) ;
@@ -134,6 +169,20 @@ void Game::Gamestart(){
                         }
                     }
                 }
+//..........................bomer
+                for ( int j = 0 ; j < Mine.Getbomlist().size() ; ++ j ){
+                    std::vector<bom*> N_list = Mine.Getbomlist() ;
+                    bom* Current_Bullet = N_list.at(j) ;
+                    if ( Current_Bullet != NULL ){
+                        if ( C_enemy->is_exist() && Current_Bullet->is_exist() && C_enemy->Coll(*Current_Bullet) ){
+                            C_enemy->updHP() ;
+                            Current_Bullet->updHP() ;
+                            if ( Current_Bullet->get_order() == 0 )
+                              Current_Bullet->upd_image(renderer) ;
+                        }
+                    }
+                }
+//..........................
             }
             else{
                 L_list.erase(L_list.begin() + i) ;
@@ -142,6 +191,61 @@ void Game::Gamestart(){
                 delete C_enemy ;
             }
         }
+//...............................Bat...............................................................
+        for ( int i = 0 ; i < List_bat.size() ; ++ i ){
+             bat* C_enemy = List_bat.at(i) ;
+             C_enemy->setX( C_enemy->getX() - dif_map_x) ;
+             C_enemy->setY( C_enemy->getY() - dif_map_y) ;
+        }
+        for ( int i = 0 ; i < List_bat.size() ; ++ i ){
+            std::vector<bat*> L_list = List_bat ;
+            bat* C_enemy = L_list.at(i) ;
+             if ( C_enemy->is_exist() ){
+                C_enemy->updateframe() ;
+                string cur_enemy_name = C_enemy->getName() +(char('0' + C_enemy->getsernum())) +".png";
+                const char* s = cur_enemy_name.c_str() ;
+                C_enemy->setTexture(s , renderer ) ;
+
+                RealrenderTexture( C_enemy->getTexture() , C_enemy->getX()  , C_enemy->getY() , 0 ,( C_enemy->getX() < Mine.getX() ? 1 : 0 ) , renderer ) ;
+
+                //cout << 1 << "\n" ;
+                C_enemy->MOVETO( Mine.getX() , Mine.getY() , C_enemy->getSP() ) ;
+                C_enemy->move() ;
+                if (  C_enemy->Coll(Mine) ){
+                    C_enemy->updHP() ;
+                    Mine.updHP() ;
+                }
+                for ( int j = 0 ; j < Mine.GetBulletlist().size() ; ++ j ){
+                    std::vector<Bullet*> N_list = Mine.GetBulletlist() ;
+                    Bullet* Current_Bullet = N_list.at(j) ;
+                    if ( Current_Bullet != NULL ){
+                        if ( C_enemy->is_exist() && Current_Bullet->is_exist() && C_enemy->Coll(*Current_Bullet) ){
+                            C_enemy->updHP() ;
+                            Current_Bullet->updHP() ;
+                        }
+                    }
+                }
+                for ( int j = 0 ; j < Mine.Getbomlist().size() ; ++ j ){
+                    std::vector<bom*> N_list = Mine.Getbomlist() ;
+                    bom* Current_Bullet = N_list.at(j) ;
+                    if ( Current_Bullet != NULL ){
+                        if ( C_enemy->is_exist() && Current_Bullet->is_exist() && C_enemy->Coll(*Current_Bullet) ){
+                            C_enemy->updHP() ;
+                            Current_Bullet->updHP() ;
+                            if ( Current_Bullet->get_order() == 0 )
+                              Current_Bullet->upd_image(renderer) ;
+                        }
+                    }
+                }
+            }
+            else{
+                L_list.erase(L_list.begin() + i) ;
+                List_bat = L_list ;
+                C_enemy->release() ;
+                delete C_enemy ;
+            }
+        }
+//.....................................bullet..................................................
          for ( int i = 0 ; i <Mine.GetBulletlist().size() ; ++ i ){
             std::vector<Bullet*> N_list = Mine.GetBulletlist() ;
             Bullet* Current_Bullet = N_list.at(i) ;
@@ -164,6 +268,37 @@ void Game::Gamestart(){
                         delete Current_Bullet ;
                         Current_Bullet = NULL ;
                     }
+                }
+         }
+//................................updbom.........................................................
+        for ( int i = 0 ; i <Mine.Getbomlist().size() ; ++ i ){
+            std::vector<bom*> N_list = Mine.Getbomlist() ;
+            bom* Current_Bullet = N_list.at(i) ;
+            if ( Current_Bullet != NULL ){
+                if ( Current_Bullet->is_exist() ){
+                    if ( Current_Bullet->get_order() == 0 )
+                        RealrenderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), Current_Bullet->getangle() , 0 ,  renderer);
+                    else
+                        RealrenderTexture( Current_Bullet->getTexture(), Current_Bullet->getX() , Current_Bullet->getY(), 0 , 0 ,  renderer);
+                }
+         }
+         }
+         for ( int i = 0 ; i <Mine.Getbomlist().size() ; ++ i ){
+                std::vector<bom*> N_list = Mine.Getbomlist() ;
+                bom* Current_Bullet = N_list.at(i) ;
+                if ( Current_Bullet != NULL ){
+                if ( Current_Bullet->is_exist() && Current_Bullet->get_order() == 0 ){
+                        Current_Bullet->move() ;
+                } else if ( !Current_Bullet->is_exist() ){
+                        N_list.erase( N_list.begin() + i ) ;
+                        Mine.setbomlist(N_list) ;
+                        Current_Bullet->release() ;
+                        delete Current_Bullet ;
+                        Current_Bullet = NULL ;
+                    }
+                   else{
+                        Current_Bullet->upd_image(renderer) ;
+                   }
                 }
          }
          CommonFunc::RealrenderTexture( Mine.getweapon()->getTexture() , Mine.getweapon()->getX() ,  Mine.getweapon()->getY() ,  Mine.getweapon()->getangle() , 0 , renderer ) ;

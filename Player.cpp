@@ -61,6 +61,7 @@ void Player::keyDown(SDL_KeyboardEvent *event){
             case SDL_SCANCODE_RIGHT:
                 right = true;
                 break;
+
         }
     }
 }
@@ -86,6 +87,7 @@ void Player::keyUp(SDL_KeyboardEvent *event){
     }
     }
 }
+
 void Player::mouseMove( int Nx , int Ny , SDL_Renderer* renderer ){
 
     weapon->setangle( CommonFunc::getangle(Nx - this->x - this->W / 2 , Ny - this->y - this->H/2)) ;
@@ -95,20 +97,36 @@ void Player::mouseMove( int Nx , int Ny , SDL_Renderer* renderer ){
 
 }
 
-void Player::mouseDown( int Newx , int Newy , SDL_Renderer* renderer){
+void Player::mouseDown( int Newx , int Newy , int type , SDL_Renderer* renderer ){
 
-	Bullet* NewBullet = new Bullet() ;
-	NewBullet->setTexture( "bullet.png" , renderer  ) ;
+    if ( type == 1 ){
+        Bullet* NewBullet = new Bullet() ;
+        NewBullet->setTexture( "bullet.png" , renderer  ) ;
 
-    NewBullet->setHP(1) ;
-    NewBullet->setangle(CommonFunc::getangle( Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 )) ;
+        NewBullet->setHP(1) ;
+        NewBullet->setangle(CommonFunc::getangle( Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 )) ;
 
-    pair<int,int> newpos = CommonFunc::getPosmovemouse( x , y , W , H ,  Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 , NewBullet->getW() , NewBullet->getH() ) ;
+        pair<int,int> newpos = CommonFunc::getPosmovemouse( x , y , W , H ,  Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 , NewBullet->getW() , NewBullet->getH() ) ;
 
-    NewBullet->setX( newpos.first ) ; NewBullet->setY( newpos.second ) ;
+        NewBullet->setX( newpos.first ) ; NewBullet->setY( newpos.second ) ;
 
-    NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
-    List_Bullet.push_back(NewBullet) ;
+        NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
+        List_Bullet.push_back(NewBullet) ;
+    }
+    else{
+        bom* NewBullet = new bom() ;
+        NewBullet->setTexture( "bom.png" , renderer  ) ;
+
+        NewBullet->setHP(1) ;
+        NewBullet->setangle(CommonFunc::getangle( Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 )) ;
+
+        pair<int,int> newpos = CommonFunc::getPosmovemouse( x , y , W , H ,  Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 , NewBullet->getW() , NewBullet->getH() ) ;
+
+        NewBullet->setX( newpos.first ) ; NewBullet->setY( newpos.second ) ;
+
+        NewBullet->MOVETO( Newx , Newy , NewBullet->getSP() ) ;
+        List_bom.push_back(NewBullet) ;
+    }
 
 }
 
@@ -140,7 +158,13 @@ void Player::resetInput(){
 void Player::setbulletlist(std::vector<Bullet*> List ){
     List_Bullet = List ;
 }
-
+void Player::setbomlist(std::vector<bom*> List ){
+    List_bom = List ;
+}
 std :: vector<Bullet*> Player::GetBulletlist(){
     return List_Bullet ;
 }
+std :: vector<bom*> Player::Getbomlist(){
+    return List_bom ;
+}
+

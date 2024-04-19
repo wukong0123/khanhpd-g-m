@@ -4,6 +4,7 @@
 #include "CommonFunction.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
+#include "bat.hpp"
 
 class Game{
     protected:
