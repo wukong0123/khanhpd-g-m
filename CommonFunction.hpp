@@ -27,6 +27,8 @@ namespace CommonFunc{
   double getangle( int , int ) ;
   pair<int,int> getPosmovemouse( int , int , int , int ,int , int, double , double ) ;
   void RealrenderTexture(SDL_Texture *, double , double , double , bool , SDL_Renderer*) ;
+  void swordrenderTexture(SDL_Texture *, int , int , double , double , double , bool , SDL_Renderer*) ;
   bool IS_ATC( int , int , int , int , int , int ) ;
+
 }
 

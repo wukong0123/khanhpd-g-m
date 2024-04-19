@@ -93,6 +93,17 @@ void CommonFunc::RealrenderTexture(SDL_Texture *texture, double x, double y, dou
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
     SDL_RenderCopyEx( renderer , texture , NULL , &dest , angle , NULL , ( o == 0 ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL )) ;
 }
+
+void CommonFunc::swordrenderTexture(SDL_Texture *texture, int midx , int midy , double x, double y,  double angle , bool o , SDL_Renderer* renderer){
+
+    SDL_Point Point ;
+    SDL_Rect dest;
+    Point.x = midx ; Point.y = midy ;
+    dest.x = x;
+	dest.y = y;
+	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+    SDL_RenderCopyEx( renderer , texture , NULL , &dest , angle , &Point , ( o == 0 ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL )) ;
+}
 SDL_Texture* CommonFunc::loadTexture(const char *filename, SDL_Renderer* renderer){
 
 	SDL_Texture *texture = IMG_LoadTexture(renderer, filename);

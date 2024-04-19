@@ -22,6 +22,7 @@ void Game::Gamestart(){
 
     SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
 
+    Entity * sword = new Entity() ;
     CommonFunc::renderTexture( BackGround , 0 , 0 , this->renderer );
 
     SDL_RenderPresent( this->renderer );
@@ -45,6 +46,8 @@ void Game::Gamestart(){
 
     int weapon_type = 1 ;
     int Cannon_timer = -3000 ;
+
+    int sword_angle = 0 ;
     while ( true ) {
 
         if ( Mine.getHP() <= 0 ){
@@ -133,7 +136,19 @@ void Game::Gamestart(){
         dif_map_y = cur_y - dif_map_y ;
 
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
+
+        //SDL_Texture* sword = loadTexture("sword.png", this->renderer);
+        //RealrenderTexture( sword ,
+        sword->setTexture("sword.png" , renderer ) ;
+        int sword_W = sword->getW() ;
+        int sword_H = sword->getH() ;
+        sword->setX( Mine.getX() + Mine.getW()/2 - sword_W ) ;
+        sword->setY( Mine.getY() + Mine.getH()/2 - sword_H / 2 ) ;
+        (sword_angle += 20 ) ;
+        sword_angle %= 360 ;
+        CommonFunc::swordrenderTexture( sword->getTexture() , sword_W , sword_H / 2 , sword->getX() , sword->getY() , sword_angle , 0 , renderer ) ;
         Mine.render(renderer) ;
+
         Mine.setWH(36 , 48) ;
 //...........................................tm..............................................
         for ( int i = 0 ; i < List_enemy.size() ; ++ i ){
