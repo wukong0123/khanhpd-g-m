@@ -97,7 +97,6 @@ void Game::Gamestart(){
         dif_map_x = cur_x - dif_map_x ;
         dif_map_y = cur_y - dif_map_y ;
 
-        cout << dif_map_x <<' ' << dif_map_y << ' ' << cur_x <<' ' << cur_y << "\n" ;
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
         Mine.render(renderer) ;
         Mine.setWH(36 , 48) ;
