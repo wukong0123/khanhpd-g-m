@@ -51,10 +51,11 @@ void Game::Gamestart(){
 
         if ( timer >= 3000 && List_enemy.size() < 20 ){
             Enemy* Su = new Enemy();
-            Su->setNametexture( "tm" ) ;
-            Su->setframe( 6 ) ;
+            Su->setNametexture( "bat" ) ;
+            Su->setframe( 8 ) ;
             string cur_enemy_name = Su->getName() +(char('0' + Su->getsernum())) +".png";
             const char* s = cur_enemy_name.c_str() ;
+
             Su->setTexture( s , renderer ) ;
             Su->MOVETO( Mine.getX() , Mine.getY() , Su->getSP() ) ;
             List_enemy.push_back(Su) ;
@@ -86,12 +87,25 @@ void Game::Gamestart(){
         Mine.move() ;
 
         Mine.mouseMove( z , t , renderer ) ;
+
+        int dif_map_x = cur_x ;
+        int dif_map_y = cur_y ;
+
         cur_x += Mine.getox() ; cur_y += Mine.getoy() ;
         cur_x = max( 0 , min( cur_x , 1290 - 1000 ) ) ;
         cur_y = max( 0 , min( cur_y , 964 - 650 ) ) ;
+        dif_map_x = cur_x - dif_map_x ;
+        dif_map_y = cur_y - dif_map_y ;
+
+        cout << dif_map_x <<' ' << dif_map_y << ' ' << cur_x <<' ' << cur_y << "\n" ;
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
         Mine.render(renderer) ;
         Mine.setWH(36 , 48) ;
+        for ( int i = 0 ; i < List_enemy.size() ; ++ i ){
+             Enemy* C_enemy = List_enemy.at(i) ;
+             C_enemy->setX( C_enemy->getX() - dif_map_x) ;
+             C_enemy->setY( C_enemy->getY() - dif_map_y) ;
+        }
         for ( int i = 0 ; i < List_enemy.size() ; ++ i ){
             std::vector<Enemy*> L_list = List_enemy ;
             Enemy* C_enemy = L_list.at(i) ;
@@ -100,8 +114,11 @@ void Game::Gamestart(){
                 string cur_enemy_name = C_enemy->getName() +(char('0' + C_enemy->getsernum())) +".png";
                 const char* s = cur_enemy_name.c_str() ;
                 C_enemy->setTexture(s , renderer ) ;
+                //C_enemy->setX( C_enemy->getX() + dif_map_x) ;
+                //C_enemy->setY( C_enemy->getY() + dif_map_y) ;
+                RealrenderTexture( C_enemy->getTexture() , C_enemy->getX()  , C_enemy->getY() , 0 ,( C_enemy->getX() < Mine.getX() ? 1 : 0 ) , renderer ) ;
 
-                RealrenderTexture( C_enemy->getTexture() , C_enemy->getX() , C_enemy->getY() , 0 ,( C_enemy->getX() > Mine.getX() ? 1 : 0 ) , renderer ) ;
+
                 C_enemy->MOVETO( Mine.getX() , Mine.getY() , C_enemy->getSP() ) ;
                 C_enemy->move() ;
                 if (  C_enemy->Coll(Mine) ){

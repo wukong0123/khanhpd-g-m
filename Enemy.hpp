@@ -8,6 +8,7 @@ class Enemy:public Entity{
         int serial_num ;
         int num_photo ;
         string name ;
+        int type ;
 	public:
 		Enemy();
 		bool is_exist() ;

@@ -2,7 +2,7 @@
 
 Player::Player(){
 	up = left = down = right = false;
-	speed = (double)(2);
+	speed = (double)(3.5);
 	HP = 3 ;
 	direct = 0 ; cur_pos = 0 ;
 	weapon = new Entity();
