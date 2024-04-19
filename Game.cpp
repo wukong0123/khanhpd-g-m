@@ -22,7 +22,7 @@ void Game::Gamestart(){
 
     SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
 
-    Entity * sword = new Entity() ;
+    vector<Entity*> sword ;
     CommonFunc::renderTexture( BackGround , 0 , 0 , this->renderer );
 
     SDL_RenderPresent( this->renderer );
@@ -136,17 +136,26 @@ void Game::Gamestart(){
         dif_map_y = cur_y - dif_map_y ;
 
         CommonFunc::ProrenderTexture( BackGround , cur_x , cur_y , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
-
+//.........................................sword.........................................................................
         //SDL_Texture* sword = loadTexture("sword.png", this->renderer);
         //RealrenderTexture( sword ,
-        sword->setTexture("sword.png" , renderer ) ;
-        int sword_W = sword->getW() ;
-        int sword_H = sword->getH() ;
-        sword->setX( Mine.getX() + Mine.getW()/2 - sword_W ) ;
-        sword->setY( Mine.getY() + Mine.getH()/2 - sword_H / 2 ) ;
-        (sword_angle += 20 ) ;
-        sword_angle %= 360 ;
-        CommonFunc::swordrenderTexture( sword->getTexture() , sword_W , sword_H / 2 , sword->getX() , sword->getY() , sword_angle , 0 , renderer ) ;
+        if ( sword.size() < 5 && timer >= 5000 * sword.size() ){
+            Entity* sw = new Entity() ;
+            sw->setTexture("sword.png" , renderer ) ;
+               for ( int j = 0 ; j < sword.size() ; ++ j ){
+                    Entity * N_sword = sword.at(j) ;
+                    N_sword->setangle( j * 360 / (int)(sword.size()) ) ;
+               }
+             sword.push_back( sw ) ;
+        }
+
+        for ( int j = 0 ; j < sword.size() ; ++ j ){
+            Entity * N_sword = sword.at(j) ;
+            N_sword->setX( Mine.getX() + Mine.getW()/2 - N_sword->getW() ) ;
+            N_sword->setY( Mine.getY() + Mine.getH()/2 - N_sword->getH() ) ;
+            N_sword->setangle(double((int)((N_sword->getangle() + 20)) % 360) ) ;
+            CommonFunc::swordrenderTexture( N_sword->getTexture() , N_sword->getW() , N_sword->getH() / 2 ,N_sword->getX() , N_sword->getY() , N_sword->getangle() , 0 , renderer ) ;
+        }
         Mine.render(renderer) ;
 
         Mine.setWH(36 , 48) ;
