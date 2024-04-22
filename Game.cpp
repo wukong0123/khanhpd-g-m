@@ -35,7 +35,7 @@ void Game::Gamestart(){
     SDL_Texture * tbullet = loadTexture("bullet.png" , renderer ) ;
     SDL_Texture * tmbullet = loadTexture("magic_bullet.png" , renderer ) ;
     SDL_Texture * sword = loadTexture("sword.png" , renderer ) ;
-    vector<SDL_Texture *> fires , magicians , tms , boms , bats ;
+    vector<SDL_Texture *> fires , magicians , tms , boms , bats , bossstand , bossskill , bossdied , bossmove ;
     boms.push_back( loadTexture("bom.png" , renderer )  ) ;
 
     for ( int i = 1 ; i <= 8 ; ++ i ){
@@ -59,6 +59,27 @@ void Game::Gamestart(){
         string s = "tm"  ;
         s = s + char( i + '0' ) + ".png"  ;
         tms.push_back( loadTexture(s.c_str() , renderer ) ) ;
+    }
+
+    for ( int i = 0 ; i < 20 ; ++ i ){
+        string s = "./bossdied" ;
+        s = s + "/frame_" + char( i / 10 + '0' ) + char( i % 10 + '0' ) +  "_delay-0.04s.png" ;
+        bossdied.push_back( loadTexture( s.c_str() , renderer ) ) ;
+    }
+    for ( int i = 0 ; i < 36 ; ++ i ){
+        string s = "./bossmove" ;
+        s = s + "/frame_" + char( i / 10 + '0' ) + char( i % 10 + '0' ) +  "_delay-0.04s.png" ;
+        bossmove.push_back( loadTexture( s.c_str() , renderer ) ) ;
+    }
+    for ( int i = 0 ; i < 26 ; ++ i ){
+        string s = "./bossskill" ;
+        s = s + "/frame_" + char( i / 10 + '0' ) + char( i % 10 + '0' ) +  "_delay-0.04s.png" ;
+        bossskill.push_back( loadTexture( s.c_str() , renderer ) ) ;
+    }
+    for ( int i = 0 ; i < 24 ; ++ i ){
+        string s = "./bossstand" ;
+        s = s + "/frame_" + char( i / 10 + '0' ) + char( i % 10 + '0' ) +  "_delay-0.04s.png" ;
+        bossstand.push_back( loadTexture( s.c_str() , renderer ) ) ;
     }
 
 //.............................................................................................
@@ -530,8 +551,93 @@ void Game::Gamestart(){
          SDL_Delay(50) ;
     }
 //...............................................B-O-S-S...........................................................
+    boss* Main_boss = new boss() ;
+    timer = 0 ;
+    while ( true ) {
+
+        if ( Mine.getHP() <= 0 ){
+            CommonFunc::quitSDL(window , renderer) ; // Player died
+            break ;
+        }
+
+        timer += 50 ;
+
+    //......................................pull event..............................................
+
+        int z , t ;
 
 
+        while(SDL_PollEvent(&e)){
+                if ( e.type == SDL_QUIT )
+                    exit(0);
+                if ( e.type == SDL_KEYUP )
+                    Mine.keyUp(&e.key);
+                if ( e.type ==  SDL_KEYDOWN ){
+                    Mine.keyDown(&e.key);
+
+                    if ( e.key.keysym.scancode == SDL_SCANCODE_C ){
+                        if ( timer - Cannon_timer >= 3000 ){
+                           Cannon_timer = timer ;
+                           Mine.setweapon( tcannon, renderer ) , weapon_type = 2 ;
+                        }
+                        else  Mine.setweapon( tbow , renderer ) , weapon_type = 1;
+                    }
+                    else  if ( e.key.keysym.scancode == SDL_SCANCODE_K )
+                        Mine.setweapon( tbow , renderer ) , weapon_type = 1;
+                }
+
+                if ( e.type == SDL_MOUSEBUTTONDOWN ){
+
+                   int x , y;
+                    Uint32 buttons = SDL_GetMouseState(&x , &y);
+                    Mine.mouseDown( x , y , weapon_type , tbullet , boms[0] ,  renderer ) ;
+
+                }
+                if ( e.type == SDL_MOUSEMOTION )
+                {
+                    Uint32 buttons = SDL_GetMouseState(&z , &t);
+                    Mine.mouseMove( z , t , renderer ) ;
+                }
+            Mine.move() ;
+        }
+
+        Mine.move() ;
+
+        Mine.mouseMove( z , t , renderer ) ;
+
+        CommonFunc::ProrenderTexture( BackGround , 0 , 0 , 0 , 0 , 1000 , 650 , 1000 , 650 , renderer );
+//.........................................sword.........................................................................
+
+        if ( swords.size() < 5 && timer >= 5000 * swords.size() ){
+            Entity* sw = new Entity() ;
+            sw->setTexture( sword , renderer ) ;
+               for ( int j = 0 ; j < swords.size() ; ++ j ){
+                    Entity * N_sword = swords.at(j) ;
+                    N_sword->setangle( j * 360 / (int)(swords.size()) ) ;
+               }
+             swords.push_back( sw ) ;
+        }
+
+        for ( int j = 0 ; j < swords.size() ; ++ j ){
+            Entity * N_sword = swords.at(j) ;
+            N_sword->setX( Mine.getX() + Mine.getW()/2 - N_sword->getW() ) ;
+            N_sword->setY( Mine.getY() + Mine.getH()/2 - N_sword->getH() ) ;
+            N_sword->setangle(double((int)((N_sword->getangle() + 20)) % 360) ) ;
+            CommonFunc::swordrenderTexture( N_sword->getTexture() , N_sword->getW() , N_sword->getH() / 2 ,N_sword->getX() , N_sword->getY() , N_sword->getangle() , 0 , renderer ) ;
+        }
+        Mine.render(renderer) ;
+
+        Mine.setWH(36 , 48) ;
+//......................................begin..............................................................................
+
+        Main_boss->MOVETO( 500 , 350 , 1 ) ;
+
+// 0 : move , 1 : skill , 2 : stand , 3 : died
+
+        SDL_RenderPresent( renderer );
+
+        SDL_Delay(50) ;
+    }
     SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     CommonFunc::quitSDL(window, renderer);
 }

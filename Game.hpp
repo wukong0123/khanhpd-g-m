@@ -7,6 +7,7 @@
 #include "bat.hpp"
 #include "magician.hpp"
 #include "magic_bullet.hpp"
+#include "boss.hpp"
 class Game{
     protected:
       SDL_Renderer* renderer ;
