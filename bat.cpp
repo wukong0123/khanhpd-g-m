@@ -8,7 +8,7 @@ bat::bat(){
     this->RDPos() ;
 }
 bool bat::is_exist(){
-    if ( x < 0 || y < 0 || ( x + W > 1000 || y + H > 650 || HP <= 0 ) )
+    if ( HP <= 0  )
         return 0 ;
     return 1 ;
 }
@@ -16,7 +16,6 @@ void bat::setframe( int x ){
     this->serial_num = 1 ; this->num_photo = x ;
 }
 void bat::updateframe(){
-    //serial_num ++  ;
     serial_num %= ( num_photo ) ;
     serial_num ++  ;
 }

@@ -7,7 +7,7 @@ Enemy::Enemy(){
     this->RDPos() ;
 }
 bool Enemy::is_exist(){
-    if ( x < 0 || y < 0 || ( x + W > 1000 || y + H > 650 || HP <= 0 ) )
+    if ( HP <= 0 )
         return 0 ;
     return 1 ;
 }
@@ -15,6 +15,7 @@ void Enemy::setframe( int x ){
     this->serial_num = 1 ; this->num_photo = x ;
 }
 void Enemy::updateframe(){
+
     //serial_num ++  ;
     serial_num %= ( num_photo ) ;
     serial_num ++  ;

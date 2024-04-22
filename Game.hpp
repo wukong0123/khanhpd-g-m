@@ -5,7 +5,8 @@
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "bat.hpp"
-
+#include "magician.hpp"
+#include "magic_bullet.hpp"
 class Game{
     protected:
       SDL_Renderer* renderer ;

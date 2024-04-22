@@ -21,12 +21,12 @@ class Player:public Entity{
 		bool is_move() ;
 		void keyDown(SDL_KeyboardEvent*);
 		void keyUp(SDL_KeyboardEvent*);
-		void mouseDown(int , int , int , SDL_Renderer*) ;
+		void mouseDown(int , int , int , SDL_Texture * , SDL_Texture * , SDL_Renderer* ) ;
 		void render(SDL_Renderer * ) ;
 		int getox() ;
 		void mouseMove(int , int , SDL_Renderer*) ;
 		Entity* getweapon() ;
-		void setweapon( char * , SDL_Renderer * ) ;
+		void setweapon( SDL_Texture * , SDL_Renderer * ) ;
 		int getoy() ;
 		void setWH(int , int) ;
 		void resetInput();

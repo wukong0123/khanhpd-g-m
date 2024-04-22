@@ -47,8 +47,8 @@ void Entity::setHP( int HP ){
 int Entity::getHP(){
     return HP ;
 }
-void Entity::setTexture( const char * Name , SDL_Renderer* renderer ){
-    SDL_Texture * texture = CommonFunc::loadTexture( Name , renderer ) ;
+void Entity::setTexture( SDL_Texture * texture , SDL_Renderer* renderer ){
+    //SDL_Texture * texture = CommonFunc::loadTexture( Name , renderer ) ;
 	this->texture = texture;
 	int _W , _H ;
 	SDL_QueryTexture(texture, NULL, NULL, &_W, &_H);
@@ -103,7 +103,8 @@ double Entity::getH(){
     return H ;
 }
 void Entity::release(){
-    x = y = dx = dy = 0 ; SDL_DestroyTexture(texture) ;
+    x = y = dx = dy = 0 ;
+    SDL_DestroyTexture(texture) ;
     texture = NULL ;
 }
 bool Entity::Coll( Entity Cur ){
@@ -115,5 +116,5 @@ bool Entity::Coll( Entity Cur ){
             || (IS_ATC( Bx , Bt , Ax , Ay , Az , At )) || (IS_ATC( Bz , Bt , Ax , Ay , Az , At ))) ;
 }
 Entity::~Entity(){
-
+    //SDL_DestroyTexture(texture) ;
 }

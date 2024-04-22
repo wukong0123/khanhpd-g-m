@@ -9,22 +9,22 @@ bom::bom(){
     order_image = 0 ;
 }
 bool bom::is_exist(){
-    if ( x < 0 || y < 0 || ( x + 20 > 1000 || y + 20 > 650 )  || order_image > 8 )
+    if ( ((x < 0 || y < 0 || ( x + 20 > 1000 || y + 20 > 650 ) ) && order_image == 0)  || order_image > 8 )
         return 0 ;
     return 1 ;
 }
 int bom::get_order(){
     return this->order_image ;
 }
-void bom::upd_image( SDL_Renderer * renderer ){
+void bom::upd_order(){
     order_image ++ ;
-    if ( !this->is_exist() ) {this->release() ; return ;}
-    string s = "boom" ;
-    s = s + char(order_image + '0') + ".png" ;
-    this->setTexture( s.c_str() , renderer ) ;
+}
+void bom::upd_image( SDL_Renderer * renderer , SDL_Texture * s ){
+
+    this->setTexture( s , renderer ) ;
     if ( order_image == 1 ){
         x -= 33 ;
-        y -= 46 ;
+        y -= 92 ;
     }
 
 }

@@ -6,7 +6,8 @@ class bom:public Entity{
         int order_image ;
 	public:
 		bom();
-		void upd_image( SDL_Renderer * ) ;
+		void upd_image( SDL_Renderer * ,  SDL_Texture * ) ;
 		int get_order() ;
+		void upd_order() ;
 		bool is_exist() ;
 };

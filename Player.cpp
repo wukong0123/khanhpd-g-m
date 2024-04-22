@@ -97,11 +97,11 @@ void Player::mouseMove( int Nx , int Ny , SDL_Renderer* renderer ){
 
 }
 
-void Player::mouseDown( int Newx , int Newy , int type , SDL_Renderer* renderer ){
+void Player::mouseDown( int Newx , int Newy , int type , SDL_Texture * bullet , SDL_Texture * boms , SDL_Renderer* renderer ){
 
     if ( type == 1 ){
         Bullet* NewBullet = new Bullet() ;
-        NewBullet->setTexture( "bullet.png" , renderer  ) ;
+        NewBullet->setTexture( bullet , renderer  ) ;
 
         NewBullet->setHP(1) ;
         NewBullet->setangle(CommonFunc::getangle( Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 )) ;
@@ -115,7 +115,7 @@ void Player::mouseDown( int Newx , int Newy , int type , SDL_Renderer* renderer 
     }
     else{
         bom* NewBullet = new bom() ;
-        NewBullet->setTexture( "bom.png" , renderer  ) ;
+        NewBullet->setTexture( boms , renderer  ) ;
 
         NewBullet->setHP(1) ;
         NewBullet->setangle(CommonFunc::getangle( Newx - this->x - this->W / 2 , Newy - this->y - this->H/2 )) ;
@@ -141,7 +141,7 @@ Entity* Player::getweapon(){
 void Player::render( SDL_Renderer * renderer){
     CommonFunc::ProrenderTexture(texture , cur_pos * 36 , direct * 48 , x , y , 36 , 48 , 36 , 48 , renderer ) ;
 }
-void Player::setweapon( char* Tr , SDL_Renderer * renderer ){
+void Player::setweapon( SDL_Texture * Tr , SDL_Renderer * renderer ){
     this->weapon->setTexture( Tr , renderer )  ;
 }
 int Player::getox(){
