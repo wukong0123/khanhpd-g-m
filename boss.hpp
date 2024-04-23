@@ -4,21 +4,19 @@ using namespace std ;
 class boss:public Entity{
     private :
         int serial_num ;
-        int num_photo ;
         string name ;
         int type ;
         int status ;
-        int Tox , Toy ;
+        int pos , active ;
         bool flip ;
 	public:
 		boss();
-		void setflip(bool ) ;
 		bool getflip() ;
 		bool is_exist() ;
-		void setframe(int) ;
 		void updateframe() ;
 		int getsernum() ;
 		void setstatus(int ) ;
+		bool True() ;
         int getstatus() ;
 		void RDPos() ;
 };

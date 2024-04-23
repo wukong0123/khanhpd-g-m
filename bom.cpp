@@ -19,6 +19,7 @@ int bom::get_order(){
 void bom::upd_order(){
     order_image ++ ;
 }
+
 void bom::upd_image( SDL_Renderer * renderer , SDL_Texture * s ){
 
     this->setTexture( s , renderer ) ;
@@ -26,5 +27,4 @@ void bom::upd_image( SDL_Renderer * renderer , SDL_Texture * s ){
         x -= 33 ;
         y -= 92 ;
     }
-
 }
