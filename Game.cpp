@@ -6,7 +6,7 @@
 
 using namespace std;
 using namespace CommonFunc ;
-const char* WINDOW_TITLE = "SURVIVAL_MINE_V1.0";
+const char* WINDOW_TITLE = "Zelda Survival Game";
 const double fps = 30 ;
 
 int ADDX[] = { 1 , -1 , 1 , -1 } ;
@@ -16,7 +16,172 @@ Game::Game() {
     SDL_Window * window = CommonFunc::initSDL(SCREEN_WIDTH, SCREEN_HEIGHT,WINDOW_TITLE);
     renderer = CommonFunc::createRenderer(window);
 }
+void Game::Mainmenu(){
+    TTF_Font * gfont = TTF_OpenFont( "Main.ttf", 20 );
+    TTF_Font * realfont = TTF_OpenFont( "China.ttf", 90 );
+    TTF_Font * cfont = TTF_OpenFont( "menu.ttf", 50 );
+    TTF_Font * tofont = TTF_OpenFont( "menu.ttf", 70 );
 
+    SDL_Color White = { 255 , 255 , 255 } ;
+    SDL_Color Black = { 0 , 0 , 0 } ;
+    SDL_Color Blue = { 0 , 0 , 255 } ;
+    SDL_Color Green = { 0 , 255 , 0 } ;
+
+    SDL_Texture* BackGround = loadTexture("MainMenu.png", this->renderer);
+    renderTexture( BackGround , 0 , 0 , this->renderer );
+    TTF* Play = new TTF() ;TTF* Regime = new TTF() ; TTF* Guide = new TTF() ; TTF* Sound = new TTF() ;
+    TTF* Tittle = new TTF() ;
+    Tittle->setTTFTexture(0,0,"Zelda Survival Game" , Black , realfont , renderer ) ; Tittle->setmid( 500 , 100 + 100 ) ;
+    Play->setTTFTexture( 0 , 0 , "Start Game" , Green , cfont , renderer ) ; Play->setmid(500 ,170 + 150) ;
+    Regime->setTTFTexture( 0 , 0 , "Regime" , Green , cfont , renderer ) ; Regime->setmid(500 , 240 + 150 + 20 ) ;
+    Guide->setTTFTexture( 0 , 0 , "Guide" , Green , cfont , renderer ) ; Guide->setmid(500 , 310 + 150 + 40 ) ;
+    Sound->setTTFTexture( 0 , 0 , "Sound" , Green , cfont , renderer ) ; Sound->setmid(500 , 380 + 150 + 60) ;
+    Tittle->render(renderer) ; Play->render(renderer) ; Regime->render(renderer) ; Guide->render(renderer) ; Sound->render(renderer) ;
+
+    SDL_RenderPresent(renderer) ;
+
+    SDL_Event e ;
+    SDL_Color Cplay , Cregime , Cguide , Csound ;
+    TTF_Font * Fplay = cfont ;
+    TTF_Font * Fregime = cfont ;
+    TTF_Font * Fguide = cfont ;
+    TTF_Font * Fsound = cfont ;
+    //, Fregime , Fguide , Fsound ;
+    while( true ){
+
+        renderTexture( BackGround , 0 , 0 , this->renderer );
+        Tittle->setTTFTexture(0,0,"Zelda Survival Game" , Black , realfont , renderer ) ; Tittle->setmid( 500 , 100 + 100 ) ;
+        Cplay = Green ;  Cregime = Green ;  Cguide = Green ;  Csound = Green ;
+        Fplay = cfont ; Fregime= cfont ; Fguide = cfont ; Fsound = cfont ;
+        while(SDL_PollEvent(&e)){
+            if ( e.type == SDL_QUIT )
+                exit(0);
+            if ( e.type == SDL_MOUSEBUTTONDOWN ){
+                int x , y;
+                Uint32 buttons = SDL_GetMouseState(&x , &y);
+                if ( Play->is_coll(x , y) ) this->Gamestart() ;
+                //if ( Regime->is_coll(x , y) ) this->
+            }
+
+        }
+        int z , t ;
+        Uint32 buttons = SDL_GetMouseState(&z , &t);
+        if ( Play->is_coll(z , t) ){
+            Fplay = tofont ; Cplay = Blue ;
+        }
+        if ( Regime->is_coll(z , t) ){
+            Fregime = tofont ; Cregime = Blue ;
+        }
+        if ( Sound->is_coll(z , t) ){
+            Fsound = tofont ; Csound = Blue ;
+        }
+        if ( Guide->is_coll(z , t) ){
+            Fguide = tofont ; Cguide = Blue ;
+        }
+        Tittle->setTTFTexture(0,0,"Zelda Survival Game" , Black , realfont , renderer ) ; Tittle->setmid( 500 , 100 + 100 ) ;
+        Play->setTTFTexture( 0 , 0 , "Start Game" , Cplay , Fplay, renderer ) ; Play->setmid(500 ,170 + 150) ;
+        Regime->setTTFTexture( 0 , 0 , "Regime" , Cregime , Fregime , renderer ) ; Regime->setmid(500 , 240 + 150 + 20 ) ;
+        Guide->setTTFTexture( 0 , 0 , "Guide" , Cguide , Fguide , renderer ) ; Guide->setmid(500 , 310 + 150 + 40 ) ;
+        Sound->setTTFTexture( 0 , 0 , "Sound" , Csound , Fsound , renderer ) ; Sound->setmid(500 , 380 + 150 + 60) ;
+        Tittle->render(renderer) ; Play->render(renderer) ; Regime->render(renderer) ; Guide->render(renderer) ; Sound->render(renderer) ;
+
+        SDL_RenderPresent(renderer) ;
+    }
+
+
+}
+void Game::YOULOSS(){
+
+    TTF_Font * xfont = TTF_OpenFont( "menu.ttf", 20 );
+    TTF_Font * gfont = TTF_OpenFont( "Atop-R99O3.ttf", 20 );
+    TTF_Font * realfont = TTF_OpenFont( "menu.ttf", 50 );
+    TTF_Font * cfont = TTF_OpenFont( "menu.ttf", 30 );
+    SDL_Color White = { 255 , 255 , 255 } ;
+    SDL_Color Black = { 0 , 0 , 0 } ;
+//    SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
+//    renderTexture( BackGround , 0 , 0 , this->renderer );
+
+    TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "You Loss!" , Black , realfont , renderer ) ;
+    resume->setX( 500 - resume->getW() / 2 ) ; resume->setY( 350 - resume->getH()  * 2 ) ;
+    TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press G to play again" , Black , cfont , renderer ) ;
+    bomer->setX( 500 - bomer->getW() / 2 ) ; bomer->setY( 350 - bomer->getH() + 10 ) ;
+    TTF* sws = new TTF() ; sws->setTTFTexture( 0 , 0 , "Press Q to exit game" , Black , cfont , renderer ) ;
+    sws->setX( 500 - sws->getW() / 2 ) ; sws->setY( 350 + 20 ) ;
+
+    RealrenderTexture( resume->getTexture() , resume->getX() , resume->getY() , 0 , 0 , renderer ) ;
+    RealrenderTexture( sws->getTexture() , sws->getX() , sws->getY() , 0 , 0 , renderer ) ;
+    RealrenderTexture( bomer->getTexture() , bomer->getX() , bomer->getY() , 0 , 0 , renderer ) ;
+    SDL_RenderPresent(renderer) ;
+    bool check = 0 ;
+    SDL_Event e ;
+    while( true ){
+        while(SDL_PollEvent(&e)){
+                if ( e.type == SDL_QUIT )
+                    exit(0);
+                if ( e.type ==  SDL_KEYDOWN ){
+                    if ( e.key.keysym.scancode == SDL_SCANCODE_Q ){
+                       CommonFunc::quitSDL(window , renderer) ;
+                       return ;
+                    } else
+                    if ( e.key.keysym.scancode == SDL_SCANCODE_G ){
+                       check = 1 ; break ;
+                    }
+                }
+        }
+        if ( check == 1 ) break ;
+    }
+    if ( check == 1 ){
+        this->Gamestart() ;
+        return ;
+    }
+
+}
+void Game::YOUWIN(){
+    SDL_Event e ;
+    TTF_Font * xfont = TTF_OpenFont( "menu.ttf", 20 );
+    TTF_Font * gfont = TTF_OpenFont( "menu.ttf", 20 );
+    TTF_Font * realfont = TTF_OpenFont( "menu.ttf", 50 );
+    TTF_Font * cfont = TTF_OpenFont( "menu.ttf", 30 );
+    SDL_Color White = { 255 , 255 , 255 } ;
+    SDL_Color Black = { 0 , 0 , 0 } ;
+    SDL_Color Blue = { 0 , 0 , 255 } ;
+//    SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
+//    renderTexture( BackGround , 0 , 0 , this->renderer );
+
+    TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "You Win!" , White , realfont , renderer ) ;
+    resume->setX( 500 - resume->getW() / 2 ) ; resume->setY( 350 - resume->getH()  * 2 ) ;
+    TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press G to play again" , White, cfont , renderer ) ;
+    bomer->setX( 500 - bomer->getW() / 2 ) ; bomer->setY( 350 - bomer->getH() + 10 ) ;
+    TTF* sws = new TTF() ; sws->setTTFTexture( 0 , 0 , "Press Q to exit game" , White , cfont , renderer ) ;
+    sws->setX( 500 - sws->getW() / 2 ) ; sws->setY( 350 + 20 ) ;
+
+    RealrenderTexture( resume->getTexture() , resume->getX() , resume->getY() , 0 , 0 , renderer ) ;
+    RealrenderTexture( sws->getTexture() , sws->getX() , sws->getY() , 0 , 0 , renderer ) ;
+    RealrenderTexture( bomer->getTexture() , bomer->getX() , bomer->getY() , 0 , 0 , renderer ) ;
+    SDL_RenderPresent(renderer) ;
+    bool check = 0 ;
+    while( true ){
+        while(SDL_PollEvent(&e)){
+                if ( e.type == SDL_QUIT )
+                    exit(0);
+                if ( e.type ==  SDL_KEYDOWN ){
+                    if ( e.key.keysym.scancode == SDL_SCANCODE_Q ){
+                       CommonFunc::quitSDL(window , renderer) ;
+                       return ;
+                    } else
+                    if ( e.key.keysym.scancode == SDL_SCANCODE_G ){
+                       check = 1 ; break ;
+                    }
+                }
+        }
+        if ( check == 1 ) break ;
+    }
+    if ( check == 1 ){
+        this->Gamestart() ;
+        return ;
+    }
+
+}
 void Game::Gamestart(){
 
     srand(time(NULL)) ;
@@ -24,33 +189,39 @@ void Game::Gamestart(){
     int cur_x = 0 , cur_y = 0 ;
     Player Mine ;
 
+    TTF_Font * xfont = TTF_OpenFont( "menu.ttf", 20 );
+    TTF_Font * gfont = TTF_OpenFont( "Atop-R99O3.ttf", 20 );
+    TTF_Font * realfont = TTF_OpenFont( "menu.ttf", 50 );
+    TTF_Font * cfont = TTF_OpenFont( "menu.ttf", 30 );
+
+    SDL_Color White = { 255 , 255 , 255 } ;
+    SDL_Color Black = { 0 , 0 , 0 } ;
+    SDL_Color Red = { 255 , 0 , 0 } ;
+    SDL_Color Green = { 0 , 255 , 0 } ;
+    SDL_Color Blue = { 0 , 0 , 255 } ;
+    TTF* TIMELEFT = new TTF() ;
+    TTF* WARN = new TTF() ;
+    TTF* FTIME = new TTF() ;
+
     int Boss_bullet_status = 0 ;
     SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
     SDL_Texture* BG = loadTexture("Newbackground.png", this->renderer);
     vector<Entity*> swords ;
     CommonFunc::renderTexture( BackGround , 0 , 0 , this->renderer );
-
+    TTF* beg = new TTF() ; beg->setTTFTexture( 0 , 0 , "Press any key to begin" , White , realfont , renderer ) ;
+    beg->setX( 500 - beg->getW() / 2 ) ; beg->setY( 350 - beg->getH() / 2 ) ;
+    RealrenderTexture( beg->getTexture() , beg->getX() , beg->getY() , 0 , 0 , renderer ) ;
     SDL_RenderPresent( this->renderer );
     CommonFunc::waitUntilKeyPressed();
 //.........................................font................................................
 
-TTF_Font * xfont = TTF_OpenFont( "Main.ttf", 20 );
-TTF_Font * gfont = TTF_OpenFont( "Atop-R99O3.ttf", 20 );
-TTF_Font * realfont = TTF_OpenFont( "Main.ttf", 50 );
-TTF_Font * cfont = TTF_OpenFont( "Main.ttf", 30 );
 
-SDL_Color White = { 255 , 255 , 255 } ;
-SDL_Color Black = { 0 , 0 , 0 } ;
-SDL_Color Red = { 255 , 0 , 0 } ;
-SDL_Color Green = { 0 , 255 , 0 } ;
-SDL_Color Blue = { 0 , 0 , 255 } ;
-TTF* TIMELEFT = new TTF() ;
-TTF* WARN = new TTF() ;
-TTF* FTIME = new TTF() ;
 FTIME->setTTFTexture( 10 , 70 , "Time Left : " , White , cfont , renderer ) ;
 WARN->setTTFTexture( 0 , 0 , "Boss is coming !!!" , White , realfont , renderer ) ;
 WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
 
+
+//SDL_RenderPresent(renderer) ;
 //..........................................Texture.................................................
 
     SDL_Texture * tPlayer = loadTexture("Player.png", this->renderer);
@@ -157,12 +328,16 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
     double add1 = 0 ;
     int adda = 0 ;
     while ( true ) {
-
+        if ( !Main_boss->is_exist() ){
+            this->YOUWIN() ;
+            break ;
+        }
         if ( Mine.getHP() <= 0 ){
-            CommonFunc::quitSDL(window , renderer) ; // Player died
+            this->YOULOSS() ; // Player died
             //losser
             break ;
         }
+
         if ( timer - Cannon_timer > 7000 ){
             weapon_type = 1 ; Mine.setweapon(tbow , renderer) ;
         }
@@ -287,8 +462,8 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
         Mine.render(renderer) ;
 
         Mine.setWH(36 , 48) ;
-        cout << adda << "\n" ;
-       if ( timer < 120000 ){
+       // cout << adda << "\n" ;
+       if ( timer < 20000 ){
             if ( timer >= 1500 && List_enemy.size() < 15 + adda ){
                 Enemy* Su = new Enemy();
                 Su->setframe( 6 ) ;

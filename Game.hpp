@@ -20,5 +20,8 @@ class Game{
       void set_Renderer() ;
       SDL_Renderer* get_Renderer() ;
       void set_Window() ;
+      void YOUWIN() ;
+      void YOULOSS() ;
+      void Mainmenu() ;
       SDL_Window* get_Window() ;
 };

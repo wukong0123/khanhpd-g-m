@@ -7,7 +7,7 @@
 int main(int argc, char *argv[]){
 
     Game app ;
-    app.Gamestart() ;
+    app.Mainmenu() ;
     return 0;
 }
 
