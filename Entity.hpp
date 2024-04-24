@@ -1,5 +1,7 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "CommonFunction.hpp"
 using namespace CommonFunc ;
 class Entity{
@@ -16,6 +18,7 @@ class Entity{
 		void setY(double);
 		void setDX(double);
 		void setDY(double);
+		void updSP() ;
 		void setHP(int) ;
 		void setTexture( SDL_Texture * , SDL_Renderer* );
 		void setTexturecut(const char* , SDL_Renderer* , int , int );

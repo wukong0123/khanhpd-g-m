@@ -5,12 +5,12 @@ int numstatus[] = { 36 , 26 , 24 , 20 } ;
 
 boss::boss(){
     speed = (double)(5)  ;
-    HP = 50 ;
+    HP = 500 ;
     x = -300 ;
     y = -300 ;
     pos = 0 ;
     status = 0 ;
-    flip = 1 ;
+    flip = 1 ;serial_num = 1 ;
     this->MOVETO(BX[pos] , BY[pos] , speed ) ;
     active = 0 ;
 }
@@ -19,7 +19,9 @@ bool boss::is_exist(){
         return 0 ;
     return 1 ;
 }
-
+int boss::getpos(){
+    return this->pos ;
+}
 bool boss::getflip(){
     return flip ;
 }

@@ -8,6 +8,8 @@
 #include "magician.hpp"
 #include "magic_bullet.hpp"
 #include "boss.hpp"
+#include "boss_skill.hpp"
+#include "TTF.hpp"
 class Game{
     protected:
       SDL_Renderer* renderer ;

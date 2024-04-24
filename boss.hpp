@@ -13,6 +13,7 @@ class boss:public Entity{
 		boss();
 		bool getflip() ;
 		bool is_exist() ;
+		int getpos() ;
 		void updateframe() ;
 		int getsernum() ;
 		void setstatus(int ) ;

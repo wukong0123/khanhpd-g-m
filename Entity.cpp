@@ -12,6 +12,9 @@ Entity::Entity(){
 void Entity::setSP( double speed ){
     this->speed = speed ;
 }
+void Entity::updSP(){
+    this->speed += 0.1 ;
+}
 double Entity::getSP(){
     return speed ;
 }

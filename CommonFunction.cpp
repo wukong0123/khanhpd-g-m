@@ -16,6 +16,8 @@ SDL_Window* CommonFunc::initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char*
 
     if (!IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG))
         logErrorAndExit( "SDL_image error:", IMG_GetError());
+    if( TTF_Init() == -1 )
+        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
 
     return window;
 }
@@ -39,6 +41,7 @@ void CommonFunc::quitSDL(SDL_Window* window, SDL_Renderer* renderer){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    TTF_Quit() ;
 }
 double CommonFunc::getangle( int x , int y ){
     return atan2(x , -y) * (180.0 / M_PI) ;
