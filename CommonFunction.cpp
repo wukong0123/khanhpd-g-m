@@ -7,6 +7,8 @@ void CommonFunc::logErrorAndExit(const char* msg, const char* error){
 
 SDL_Window* CommonFunc::initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char* WINDOW_TITLE){
 
+
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         logErrorAndExit("SDL_Init", SDL_GetError());
 
@@ -18,6 +20,13 @@ SDL_Window* CommonFunc::initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char*
         logErrorAndExit( "SDL_image error:", IMG_GetError());
     if( TTF_Init() == -1 )
         printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+
+
+    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+        printf("Failed to init SDL\n");
+    }
+
+    Mix_OpenAudio(22050 , MIX_DEFAULT_FORMAT , 2 , 4096 ) ;
 
     return window;
 }
@@ -42,6 +51,7 @@ void CommonFunc::quitSDL(SDL_Window* window, SDL_Renderer* renderer){
     SDL_DestroyWindow(window);
     SDL_Quit();
     TTF_Quit() ;
+    Mix_Quit() ;
 }
 double CommonFunc::getangle( int x , int y ){
     return atan2(x , -y) * (180.0 / M_PI) ;

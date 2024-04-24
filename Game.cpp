@@ -47,24 +47,37 @@ void Game::Mainmenu(){
     TTF_Font * Fguide = cfont ;
     TTF_Font * Fsound = cfont ;
     //, Fregime , Fguide , Fsound ;
+
+    roar = Mix_LoadWAV("roar.wav");
+    smenu = Mix_LoadWAV("menu.wav") ;
+    kick = Mix_LoadWAV("kick.wav") ;
+    explosion = Mix_LoadWAV("explosion.wav") ;
+
+    Mix_PlayChannel(-1 , smenu , 1) ;
     while( true ){
 
         renderTexture( BackGround , 0 , 0 , this->renderer );
         Tittle->setTTFTexture(0,0,"Zelda Survival Game" , Black , realfont , renderer ) ; Tittle->setmid( 500 , 100 + 100 ) ;
         Cplay = Green ;  Cregime = Green ;  Cguide = Green ;  Csound = Green ;
         Fplay = cfont ; Fregime= cfont ; Fguide = cfont ; Fsound = cfont ;
+        int z , t ;
         while(SDL_PollEvent(&e)){
             if ( e.type == SDL_QUIT )
                 exit(0);
             if ( e.type == SDL_MOUSEBUTTONDOWN ){
                 int x , y;
+                Mix_PlayChannel(-1 , kick , 0) ;
                 Uint32 buttons = SDL_GetMouseState(&x , &y);
-                if ( Play->is_coll(x , y) ) this->Gamestart() ;
-                //if ( Regime->is_coll(x , y) ) this->
+                if ( Play->is_coll(x , y) ) {
+                    this->Gamestart() ;
+                    Mix_CloseAudio();
+                    Mix_FreeChunk(roar) ; Mix_FreeChunk(smenu) ; Mix_FreeChunk(kick) ; Mix_FreeChunk(explosion) ;
+                }
+                Mix_PlayChannel(-1 , kick , 0) ;
             }
-
+            //Uint32 buttons = SDL_GetMouseState(&z , &t);
         }
-        int z , t ;
+
         Uint32 buttons = SDL_GetMouseState(&z , &t);
         if ( Play->is_coll(z , t) ){
             Fplay = tofont ; Cplay = Blue ;
@@ -397,7 +410,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
         }
 
 
-        if ( timer % 15000 == 0 && timer != 0 ){
+        if ( timer % 17000 == 0 && timer != 0 ){
 
             if ( Render == 0 ){
                 TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "Choose one special skill :" , Blue , cfont , renderer ) ;
@@ -463,7 +476,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
 
         Mine.setWH(36 , 48) ;
        // cout << adda << "\n" ;
-       if ( timer < 20000 ){
+       if ( timer < 120000 ){
             if ( timer >= 1500 && List_enemy.size() < 15 + adda ){
                 Enemy* Su = new Enemy();
                 Su->setframe( 6 ) ;
@@ -784,7 +797,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
         if ( timer >= 120000 && timer <= 123000 ){
 
             TTF* TIME = new TTF() ;
-            TIME->setTTFTexture( 0 , 0 , to_string((23000 - timer) / 1000).c_str() , White , realfont , renderer ) ;
+            TIME->setTTFTexture( 0 , 0 , to_string((123000 - timer) / 1000).c_str() , White , realfont , renderer ) ;
             TIME->setX(500 - TIME->getW() / 2 ) ; TIME->setY(360) ;
             RealrenderTexture( WARN->getTexture() , WARN->getX() ,   WARN->getY(), 0 , 0 , renderer ) ;
             RealrenderTexture( TIME->getTexture() , TIME->getX() ,  TIME->getY() , 0 , 0 , renderer ) ;

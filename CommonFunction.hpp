@@ -4,11 +4,16 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 650;
 const int BULLET_WIDTH = 20 ;
 const int BULLET_HEIGHT = 650 ;
 
+static Mix_Chunk* kick ;
+static Mix_Chunk* roar ;
+static Mix_Chunk* smenu ;
+static Mix_Chunk* explosion ;
 using namespace std ;
 namespace CommonFunc{
 
