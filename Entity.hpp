@@ -36,7 +36,10 @@ class Entity{
 		double getDY();
 		double getW() ;
 		double getH() ;
+		void render( SDL_Renderer * ) ;
+		void setmid( int , int ) ;
 		bool Coll( Entity ) ;
+		bool is_coll(int , int ) ;
 		SDL_Texture *getTexture();
 		virtual ~Entity();
 };

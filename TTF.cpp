@@ -20,12 +20,5 @@ void TTF::setTTFTexture( int a , int b , const char * s , SDL_Color col , TTF_Fo
     this->x = a ; this->y = b ;
     SDL_FreeSurface( textSurface );
 }
-void TTF::setmid( int a , int b ){
-    x = a - W / 2 ; y = b - H / 2 ;
-}
-void TTF::render( SDL_Renderer * renderer ){
-    CommonFunc::RealrenderTexture( texture , x , y , 0 , 0 , renderer ) ;
-}
-bool TTF::is_coll(int a , int b ){
-    return (CommonFunc::IS_ATC(a , b , x , y , x + W , y + H)) ;
-}
+
+

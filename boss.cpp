@@ -5,7 +5,7 @@ int numstatus[] = { 36 , 26 , 24 , 20 } ;
 
 boss::boss(){
     speed = (double)(7)  ;
-    HP = 500 ;
+    HP = 700 ;
     x = -300 ;
     y = -300 ;
     pos = 0 ;

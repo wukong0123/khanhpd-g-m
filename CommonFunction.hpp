@@ -15,6 +15,7 @@ static Mix_Chunk* roar ;
 static Mix_Chunk* smenu ;
 static Mix_Chunk* explosion ;
 static Mix_Chunk* click ;
+static Mix_Chunk* duel ;
 using namespace std ;
 namespace CommonFunc{
 

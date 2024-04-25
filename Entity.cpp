@@ -121,3 +121,12 @@ bool Entity::Coll( Entity Cur ){
 Entity::~Entity(){
     //SDL_DestroyTexture(texture) ;
 }
+void Entity::setmid( int a , int b ){
+    x = a - W / 2 ; y = b - H / 2 ;
+}
+bool Entity::is_coll(int a , int b ){
+    return (CommonFunc::IS_ATC(a , b , x , y , x + W , y + H)) ;
+}
+void Entity::render( SDL_Renderer * renderer ){
+    CommonFunc::RealrenderTexture( texture , x , y , 0 , 0 , renderer ) ;
+}
