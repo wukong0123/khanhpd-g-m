@@ -13,7 +13,7 @@ int ADDX[] = { 1 , -1 , 1 , -1 } ;
 int ADDY[] = { -1 , -1 , -1 , -1 } ;
 
 Game::Game() {
-    volume = 10 ;
+    volume = 100 ;
     SDL_Window * window = CommonFunc::initSDL(SCREEN_WIDTH, SCREEN_HEIGHT,WINDOW_TITLE);
     renderer = CommonFunc::createRenderer(window);
     stage = 0 ;
@@ -134,7 +134,7 @@ void Game::Guide(){
     TTF* resume = new TTF() ; resume->setTTFTexture( 10 , 10 , "Back" , Green , cfont , renderer ) ;
     resume->render(renderer) ;
 
-    Entity* G = new Entity() ; G->setTexture(loadTexture("Gui.png" , renderer) , renderer ) ; G->setmid(500 , 300) ;
+    Entity* G = new Entity() ; G->setTexture(loadTexture("X.png" , renderer) , renderer ) ; G->setmid(500 , 300) ;
 
     SDL_RenderPresent(renderer) ;
 
@@ -346,14 +346,16 @@ void Game::YOULOSS(){
     SDL_RenderPresent(renderer) ;
     int check = 0 ;
     SDL_Event e ;
+    bool B = 0 ;
     while( true ){
         while(SDL_PollEvent(&e)){
                 if ( e.type == SDL_QUIT )
                     exit(0);
                 if ( e.type ==  SDL_KEYDOWN ){
                     if ( e.key.keysym.scancode == SDL_SCANCODE_Q ){
-                       CommonFunc::quitSDL(window , renderer) ;
-                       return ;
+                       //CommonFunc::quitSDL(window , renderer) ;
+                       B = 1 ; break ;
+                       //return ;
                     } else
                     if ( e.key.keysym.scancode == SDL_SCANCODE_G ){
                        check = 1 ; break ;
@@ -363,6 +365,7 @@ void Game::YOULOSS(){
                     }
                 }
         }
+        if ( B ) CommonFunc::quitSDL(window , renderer) ;
         if ( check == 1 ) break ;
     }
     if ( check == 1 ){
@@ -485,7 +488,6 @@ int BHP = 850  ;
     SDL_Texture * sword = loadTexture("sword.png" , renderer ) ;
     SDL_Texture * minelink = loadTexture("minelink.png" , renderer ) ;
     SDL_Texture * mineheart = loadTexture("mineheart.png" , renderer ) ;
-    SDL_Texture * choosesk = loadTexture("choosesk.png" , renderer ) ;
 
     vector<SDL_Texture *> fires , magicians , tms , boms , bats , Tboss[4] , boss_skill ;
     boms.push_back( loadTexture("bom.png" , renderer )  ) ;

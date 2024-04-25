@@ -44,12 +44,16 @@
 		<Unit filename="Main.cpp" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.hpp" />
+		<Unit filename="TTF.cpp" />
+		<Unit filename="TTF.hpp" />
 		<Unit filename="bat.cpp" />
 		<Unit filename="bat.hpp" />
 		<Unit filename="bom.cpp" />
 		<Unit filename="bom.hpp" />
 		<Unit filename="boss.cpp" />
 		<Unit filename="boss.hpp" />
+		<Unit filename="boss_skill.cpp" />
+		<Unit filename="boss_skill.hpp" />
 		<Unit filename="magic_bullet.cpp" />
 		<Unit filename="magic_bullet.hpp" />
 		<Unit filename="magician.cpp" />

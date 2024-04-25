@@ -45,13 +45,15 @@ SDL_Renderer* CommonFunc::createRenderer(SDL_Window* window){
 }
 
 void CommonFunc::quitSDL(SDL_Window* window, SDL_Renderer* renderer){
-    IMG_Quit();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    IMG_Quit();
     SDL_Quit();
     TTF_Quit() ;
     Mix_Quit() ;
+    exit(0) ;
+
 }
 double CommonFunc::getangle( int x , int y ){
     return atan2(x , -y) * (180.0 / M_PI) ;
