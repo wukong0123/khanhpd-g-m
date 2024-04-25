@@ -1,5 +1,5 @@
 # Zelda Survival Game - PDK Edititon
-- Cấu trúc code và thử nghiệm game: https://youtu.be/mh6qkOLmlrQ
+- Cấu trúc code và thử nghiệm game: [https://youtu.be/mh6qkOLmlrQ](https://youtu.be/20aeYSojIDA)
 - Gameplay: https://www.youtube.com/watch?v=gKGcTRLXTNg
 
 ## Giới thiệu 
@@ -76,8 +76,17 @@ Game thuộc thể loại survial. Hãy cùng sắm vai nhân vật Link sử d�
   
  ![image](https://github.com/wukong0123/khanhpd-g-m/assets/162539932/568cdeec-f1e4-4098-9c17-60cf32b4acf4)
  
+- Boss là trùm cuối mà nhân vật của chúng ta phải vượt qua để dành chiến thắng
+
+ ![image](https://github.com/wukong0123/khanhpd-g-m/assets/162539932/2cf56073-f61e-47df-9061-e829ccca5986)
+
 ### c. Khác
+
 - Nút tạm dừng (pause) : Click 'Q' trên bàn phím sẽ tạm dừng trò chơi. 
+- Người chơi kick chuột để chỉ hướng đạn bắn
+- Những thanh kiếm luôn quay xung quanh người chơi và gây sát thương nên hãy di chuyển khéo léo để né và gây nhiều sát thương nhất có thể
+- Chú ý hãy cố gắng để tiêu diệt boss càng nhanh càng tốt vì nếu để càng lâu chúng sẽ di chuyển càng nhanh và chém càng nhiều 
+  ![image](https://github.com/wukong0123/khanhpd-g-m/assets/162539932/55b5ba22-bc85-4e9e-8d96-1901e6822424)
 
 ## 3. Điều khiển và gameplay
 
@@ -110,6 +119,6 @@ Game thuộc thể loại survial. Hãy cùng sắm vai nhân vật Link sử d�
 - File Game.cpp / Game.hpp: là quan trọng nhất với các logic game chính bao gồm menu , xử lí logic game , xử lí hình ảnh , âm thanh , chữ 
 - File CommonFuction.cpp / CommonFuction.hpp : chứa các hàm cơ bản nhất của game bao gồm init game , quit game , ... 
 - File Entity.cpp / Entity.hpp : là class đại diện cho một vật thể , cũng là thành phần cơ bản cấu thành nên các thành phần quan trọng khác của game
-- File Player.cpp / Player.hpp : là class đại diện cho nhân vật người chơi của chúng ta ( bao gồm cung , kiếm , bom ) và các thành phần cơ bản khác của một vật thẻ
+- File Player.cpp / Player.hpp : là class đại diện cho nhân vật người chơi của chúng ta ( bao gồm cung , kiếm , bom ) và các thành phần cơ bản khác của một vật thể
 - File TTF.cpp / TTF.hpp : là class đại diện cho các chữ viết ( dùng cho các hoạt động như tính điểm , tính thời gian cho game )
 - Và một vài file khác ( tải file code để biết thêm thông tin chi tiết )  
