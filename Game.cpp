@@ -52,6 +52,7 @@ void Game::Mainmenu(){
     smenu = Mix_LoadWAV("menu.wav") ;
     kick = Mix_LoadWAV("kick.wav") ;
     explosion = Mix_LoadWAV("explosion.wav") ;
+    click = Mix_LoadWAV("click.wav") ;
 
     Mix_PlayChannel(-1 , smenu , 1) ;
     while( true ){
@@ -65,30 +66,32 @@ void Game::Mainmenu(){
             if ( e.type == SDL_QUIT )
                 exit(0);
             if ( e.type == SDL_MOUSEBUTTONDOWN ){
-                int x , y;
                 Mix_PlayChannel(-1 , kick , 0) ;
+                int x , y;
                 Uint32 buttons = SDL_GetMouseState(&x , &y);
                 if ( Play->is_coll(x , y) ) {
+                    Mix_Pause(0) ; //Mix_PauseMusic() ;
                     this->Gamestart() ;
-                    Mix_CloseAudio();
-                    Mix_FreeChunk(roar) ; Mix_FreeChunk(smenu) ; Mix_FreeChunk(kick) ; Mix_FreeChunk(explosion) ;
                 }
-                Mix_PlayChannel(-1 , kick , 0) ;
             }
             //Uint32 buttons = SDL_GetMouseState(&z , &t);
         }
 
         Uint32 buttons = SDL_GetMouseState(&z , &t);
         if ( Play->is_coll(z , t) ){
+           // Mix_PlayChannel(-1 , kick , 0) ;
             Fplay = tofont ; Cplay = Blue ;
         }
         if ( Regime->is_coll(z , t) ){
+            //Mix_PlayChannel(-1 , kick , 0) ;
             Fregime = tofont ; Cregime = Blue ;
         }
         if ( Sound->is_coll(z , t) ){
+            //Mix_PlayChannel(-1 , kick , 0) ;
             Fsound = tofont ; Csound = Blue ;
         }
         if ( Guide->is_coll(z , t) ){
+        //Mix_PlayChannel(-1 , kick , 0) ;
             Fguide = tofont ; Cguide = Blue ;
         }
         Tittle->setTTFTexture(0,0,"Zelda Survival Game" , Black , realfont , renderer ) ; Tittle->setmid( 500 , 100 + 100 ) ;
@@ -100,7 +103,6 @@ void Game::Mainmenu(){
 
         SDL_RenderPresent(renderer) ;
     }
-
 
 }
 void Game::YOULOSS(){
@@ -114,11 +116,11 @@ void Game::YOULOSS(){
 //    SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
 //    renderTexture( BackGround , 0 , 0 , this->renderer );
 
-    TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "You Loss!" , Black , realfont , renderer ) ;
+    TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "You Loss!" , White , realfont , renderer ) ;
     resume->setX( 500 - resume->getW() / 2 ) ; resume->setY( 350 - resume->getH()  * 2 ) ;
-    TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press G to play again" , Black , cfont , renderer ) ;
+    TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press G to play again" , White , cfont , renderer ) ;
     bomer->setX( 500 - bomer->getW() / 2 ) ; bomer->setY( 350 - bomer->getH() + 10 ) ;
-    TTF* sws = new TTF() ; sws->setTTFTexture( 0 , 0 , "Press Q to exit game" , Black , cfont , renderer ) ;
+    TTF* sws = new TTF() ; sws->setTTFTexture( 0 , 0 , "Press Q to exit game" , White , cfont , renderer ) ;
     sws->setX( 500 - sws->getW() / 2 ) ; sws->setY( 350 + 20 ) ;
 
     RealrenderTexture( resume->getTexture() , resume->getX() , resume->getY() , 0 , 0 , renderer ) ;
@@ -386,8 +388,8 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
                 }
 
                 if ( e.type == SDL_MOUSEBUTTONDOWN ){
-
-                   int x , y;
+                    Mix_PlayChannel(-1 , click , 0) ;
+                    int x , y;
                     Uint32 buttons = SDL_GetMouseState(&x , &y);
                     Mine.mouseDown( x , y , weapon_type , tbullet , boms[0] ,  renderer ) ;
 
@@ -415,7 +417,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
             if ( Render == 0 ){
                 TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "Choose one special skill :" , Blue , cfont , renderer ) ;
                 resume->setX( 500 - resume->getW() / 2 ) ; resume->setY( 350 - resume->getH()  * 2 ) ;
-                TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press c to have a cannon with devastating damage!" , Black , cfont , renderer ) ;
+                TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press c to have a cannon with devastating damage!" , White , cfont , renderer ) ;
                 bomer->setX( 500 - bomer->getW() / 2 ) ; bomer->setY( 350 - bomer->getH() + 10 ) ;
                 TTF* sws = new TTF() ; sws->setTTFTexture( 0 , 0 , "Press k to add a sword of destruction all around!" , White , cfont , renderer ) ;
                 sws->setX( 500 - sws->getW() / 2 ) ; sws->setY( 350 + 20 ) ;
@@ -476,7 +478,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
 
         Mine.setWH(36 , 48) ;
        // cout << adda << "\n" ;
-       if ( timer < 120000 ){
+       if ( timer < 20000 ){
             if ( timer >= 1500 && List_enemy.size() < 15 + adda ){
                 Enemy* Su = new Enemy();
                 Su->setframe( 6 ) ;
@@ -555,6 +557,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
                                 damge.push_back( Edamge ) ;
                                 Current_Bullet->updHP() ;
                                 if ( Current_Bullet->get_order() == 0 ){
+                                    Mix_PlayChannel(-1 , explosion , 0) ;
                                     Current_Bullet->upd_order() ;
                                     Current_Bullet->upd_image(renderer , boms[Current_Bullet->get_order()]) ;
                                 }
@@ -634,6 +637,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
                                 damge.push_back( Edamge ) ;
                                 Current_Bullet->updHP() ;
                                 if ( Current_Bullet->get_order() == 0 ){
+                                    Mix_PlayChannel(-1 , explosion , 0) ;
                                     Current_Bullet->upd_order() ;
                                     Current_Bullet->upd_image(renderer , boms[Current_Bullet->get_order()]) ;
                                 }
@@ -724,6 +728,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
                                 damge.push_back( Edamge ) ;
                                 Current_Bullet->updHP() ;
                                 if ( Current_Bullet->get_order() == 0 ){
+                                    Mix_PlayChannel(-1 , explosion , 0) ;
                                     Current_Bullet->upd_order() ;
                                     Current_Bullet->upd_image(renderer , boms[Current_Bullet->get_order()]) ;
                                 }
@@ -805,7 +810,9 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
         {
                 BackGround = BG ;
                 if ( Main_boss->is_exist() ){
+                    //Mix_PlayChannel(-1 , roar , 1) ;
                     if ( Boss_bullet_status < 1 && Main_boss->getstatus() == 1 ){
+                        Mix_PlayChannel(-1 , roar , 0) ;
                         kboss * Nkb1 = new kboss() ; kboss * Nkb2 = new kboss() ;kboss * Nkb3 = new kboss() ;
                         Nkb1->setX( Main_boss->getX() + Main_boss->getW() / 2 ) ;
                         Nkb1->setY( Main_boss->getY() + Main_boss->getH() / 2 ) ;
@@ -863,6 +870,7 @@ WARN->setX( 500 - WARN->getW() / 2 ) ; WARN->setY(350 - WARN->getH()) ;
                                     damge.push_back( Edamge ) ;
                                     Current_Bullet->updHP() ;
                                     if ( Current_Bullet->get_order() == 0 ){
+                                        Mix_PlayChannel(-1 , explosion , 0) ;
                                         Current_Bullet->upd_order() ;
                                         Current_Bullet->upd_image(renderer , boms[Current_Bullet->get_order()]) ;
                                     }

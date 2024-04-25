@@ -4,7 +4,7 @@ int BY[] = { 88 , 650 - 88 , 650 - 88 , 88 } ;
 int numstatus[] = { 36 , 26 , 24 , 20 } ;
 
 boss::boss(){
-    speed = (double)(5)  ;
+    speed = (double)(7)  ;
     HP = 500 ;
     x = -300 ;
     y = -300 ;
