@@ -328,6 +328,8 @@ void Game::YOULOSS(){
 //    SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
 //    renderTexture( BackGround , 0 , 0 , this->renderer );
 
+    for ( int i = -1 ; i < 4 ; ++ i ) Mix_Pause(i) ;
+
     TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "You Loss!" , White , realfont , renderer ) ;
     resume->setX( 500 - resume->getW() / 2 ) ; resume->setY( 350 - resume->getH()  * 2 ) ;
     TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press G to play again" , White , cfont , renderer ) ;
@@ -390,6 +392,7 @@ void Game::YOUWIN(){
 //    SDL_Texture* BackGround = loadTexture("Background.png", this->renderer);
 //    renderTexture( BackGround , 0 , 0 , this->renderer );
 
+    for ( int i = -1 ; i < 4 ; ++ i ) Mix_Pause(i) ;
     TTF* resume = new TTF() ; resume->setTTFTexture( 0 , 0 , "You Win!" , White , realfont , renderer ) ;
     resume->setX( 500 - resume->getW() / 2 ) ; resume->setY( 350 - resume->getH()  * 2 ) ;
     TTF* bomer = new TTF() ; bomer->setTTFTexture( 0 , 0 , "Press G to play again" , White, cfont , renderer ) ;
