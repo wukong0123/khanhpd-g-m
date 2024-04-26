@@ -1,6 +1,6 @@
 # Zelda Survival Game - PDK Edititon
-- Cấu trúc code và thử nghiệm game: [https://youtu.be/mh6qkOLmlrQ](https://youtu.be/20aeYSojIDA)
-- Gameplay: https://www.youtube.com/watch?v=gKGcTRLXTNg
+- Cấu trúc code và thử nghiệm game: https://www.youtube.com/watch?v=RQPNB_nGnp0
+- Gameplay: https://youtu.be/8594_P90XB8
 
 ## Giới thiệu 
 Game thuộc thể loại survial. Hãy cùng sắm vai nhân vật Link sử dụng linh hoạt các loại vũ khí để diệt boss và đem lại sự bình yên cho thảo nguyên xanh . 
