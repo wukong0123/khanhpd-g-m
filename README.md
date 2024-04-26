@@ -24,6 +24,8 @@ Game thuộc thể loại survial. Hãy cùng sắm vai nhân vật Link sử d�
 
 **Bước 4:** Chạy file [survival_mine_game.cbp](survival_mine_game.cbp) và chạy game bằng phím F9
 
+**Hoặc vào link sau để tải và chỉ cần chạy file .exe để chơi game:** (https://drive.google.com/drive/folders/1qcqrJtz_gv7JFCbKwid1en_5LqH9eGmJ?usp=sharing)
+
 ## 1. Bắt đầu game
 
 - Màn hình chính:
